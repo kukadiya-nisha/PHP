@@ -1,57 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NRK</title>
-    <!-- Bootstrap CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="./css/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap-icons.css">
+    <script src="css/bootstrap.bundle.min.js"></script>
+    <script src="css/jquery-3.6.0.min.js"></script>
+    <script src="css/jquery.validate.min.js"></script>
+    <script src="css/additional-methods.min.js"></script>
 </head>
+
 <body>
-
-    <!-- Responsive Header -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <!-- Brand/logo -->
-                <a class="navbar-brand" href="home.php">Test</a>
-
-                <!-- Toggle button for mobile -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <!-- Navbar links -->
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="home.php">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="tutorial1Dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Tutorial 1
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="tutorial1Dropdown">
-                                <li><a class="dropdown-item" href="Tutorial-1_1.php">Tutorial 1.1</a></li>
-                                <li><a class="dropdown-item" href="#">Dropdown 2</a></li>
-                                <li><a class="dropdown-item" href="#">Dropdown 3</a></li>
-                                <li><a class="dropdown-item" href="#">Dropdown 4</a></li>
-                                <li><a class="dropdown-item" href="#">Dropdown 5</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Services</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contact</a>
-                        </li>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.php">E-Shop</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="all_products.php" id="navbarDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="all_products.php">Electronics</a></li>
+                            <li><a class="dropdown-item" href="all_products.php">Fashion</a></li>
+                            <li><a class="dropdown-item" href="all_products.php">Home & Living</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="all_products.php">All Categories</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="deals.php">Deals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="contact.php">Contact</a>
+                    </li>
+                </ul>
+                <form class="d-flex mb-2 mb-lg-0 mx-2" action="all_products.php">
+                    <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
+                    <button class="btn btn-outline-light" type="submit">Search</button>
+                </form>
+                <div class="d-flex mx-2">
+                    <a href="cart.php" class="btn btn-outline-light me-2">
+                        <i class="bi bi-cart"></i> Cart
+                    </a>
+                    <a href="login.php" class="btn btn-outline-light">
+                        <i class="bi bi-person"></i> Login
+                    </a>
+                </div>
+                <div class="nav-item dropdown">
+                    <a class="btn btn-outline-light dropdown-toggle" href="#" id="profileDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person"></i> Profile
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
+                        <li><a class="dropdown-item" href="orders.php">My Orders</a></li>
+                        <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
+                        <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
                     </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-
-    <!-- Bootstrap JS and dependencies -->
-   
+        </div>
+    </nav>
