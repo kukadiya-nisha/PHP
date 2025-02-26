@@ -1,44 +1,7 @@
 <?php include 'header.php'; ?>
 
 <style>
-    .otp-card {
-        max-width: 500px;
-        margin: 2rem auto;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .otp-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .form-control:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
-    }
-
-    .otp-input {
-        width: 50px;
-        height: 50px;
-        text-align: center;
-        font-size: 1.5rem;
-        margin: 0 5px;
-        transition: all 0.3s ease;
-    }
-
-    .otp-input:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-outline-danger {
-        transition: all 0.3s ease;
-    }
-
-    .btn-outline-danger:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
-    }
+   
 </style>
 
 <div class="container py-5">

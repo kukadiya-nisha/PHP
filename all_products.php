@@ -1,61 +1,7 @@
 <?php include 'header.php'; ?>
 
 <style>
-    .product-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-    }
-
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-img {
-        transition: transform 0.3s ease;
-        position: relative;
-    }
-
-    .product-card:hover .product-img {
-        transform: scale(1.05);
-    }
-
-    .product-title {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-
-    .form-select {
-        transition: border-color 0.3s ease;
-    }
-
-    .form-select:hover {
-        border-color: #dc3545;
-    }
-
-    .form-select option:hover {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    /* Match dropdown styling from header */
-    .form-select option {
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .form-select option:checked,
-    .form-select option:focus {
-        background-color: #dc3545;
-        color: white;
-    }
-
-    option:hover {
-        background-color: #dc3545;
-        color: white;
-    }
+    
 
     .wishlist-icon {
         background-color: white;

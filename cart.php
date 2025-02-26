@@ -1,41 +1,5 @@
 <?php include 'header.php'; ?>
 
-<style>
-    .cart-item {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .cart-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .product-img {
-        transition: transform 0.3s ease;
-    }
-
-    .cart-item:hover .product-img {
-        transform: scale(1.05);
-    }
-
-    .quantity-input {
-        max-width: 80px;
-    }
-
-    .quantity-input:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
-    }
-
-    .remove-btn {
-        transition: all 0.3s ease;
-    }
-
-    .remove-btn:hover {
-        background-color: #dc3545 !important;
-        color: white !important;
-    }
-</style>
 
 <div class="container py-5">
     <h2 class="text-center mb-4">Shopping Cart</h2>

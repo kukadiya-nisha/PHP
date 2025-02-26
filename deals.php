@@ -141,8 +141,8 @@
                     <div class="row g-0">
 
                         <div class="col-4">
-                            <div class="position-relative overflow-hidden h-100">
-                                <img src="./images/p4.jpg" class="w-100 h-100 object-fit-cover" alt="Featured Deal">
+                            <div class="position-relative overflow-hidden">
+                                <img src="./images/p4.jpg" class="w-100 h-100 object-fit-cover deal-img" alt="Featured Deal" height="100px">
                                 <div class="discount-badge">-25%</div>
                             </div>
                         </div>
@@ -166,8 +166,8 @@
                 <div class="card deal-card">
                     <div class="row g-0">
                         <div class="col-4">
-                            <div class="position-relative overflow-hidden h-100">
-                                <img src="./images/p1.webp" class="w-100 h-100 object-fit-cover" alt="Featured Deal">
+                            <div class="position-relative overflow-hidden">
+                                <img src="./images/p1.webp" class="w-100 h-100 object-fit-stretch" alt="Featured Deal">
                                 <div class="discount-badge">-35%</div>
                             </div>
                         </div>

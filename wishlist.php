@@ -1,35 +1,7 @@
 <?php include 'header.php'; ?>
 
 <style>
-/* Add hover effect for cards */
-.card:hover {
-  transform: scale(1.05);
-  transition: transform 0.3s ease-in-out;
-  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Set image height to 200px */
-.card-img-top {
-  height: 200px;
-  object-fit: fill;
-}
-
-/* Container to position the wishlist icon */
-.card-img-container {
-  position: relative;
-}
-
-/* Wishlist icon styling at the top right corner of the image */
-.wishlist-icon {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  padding: 5px;
-  cursor: pointer;
-}
+ 
 </style>
 
 <div class="container my-5">

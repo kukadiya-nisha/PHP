@@ -1,46 +1,6 @@
 <?php include 'header.php'; ?>
 
-<style>
-    .profile-card {
-        max-width: 800px;
-        margin: 2rem auto;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
 
-    .profile-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .profile-image {
-        width: 150px;
-        height: 150px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 3px solid #dc3545;
-        padding: 3px;
-        transition: all 0.3s ease;
-    }
-
-    .profile-image:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
-    }
-
-    .form-control:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
-    }
-
-    .btn-outline-danger {
-        transition: all 0.3s ease;
-    }
-
-    .btn-outline-danger:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.2);
-    }
-</style>
 
 <div class="container py-5">
     <div class="card profile-card">
