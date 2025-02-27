@@ -119,12 +119,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="customers.php">
+                            <a class="nav-link" href="admin_customers.php">
                                 <i class="bi bi-people"></i> Customers
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="categories.php">
+                            <a class="nav-link" href="admin_categories.php">
                                 <i class="bi bi-tags"></i> Categories
                             </a>
                         </li>
@@ -166,12 +166,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" href="customers.php">
+                            <a class="nav-link text-light" href="admin_customers.php">
                                 <i class="bi bi-people"></i> Customers
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" href="categories.php">
+                            <a class="nav-link text-light" href="admin_categories.php">
                                 <i class="bi bi-tags"></i> Categories
                             </a>
                         </li>
