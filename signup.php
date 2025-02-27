@@ -1,8 +1,26 @@
 <?php include 'header.php'; ?>
 
-<style>
-
-</style>
+<script>
+    // $(document).ready(function() {
+    //     $('#email').on('input', function() {
+    //         var email = $(this).val();
+    //         $.ajax({
+    //             type: 'POST',
+    //             url: 'checkEmail.php',
+    //             data: {email: email},
+    //             success: function(response) {
+    //                 if(response == 'true') {
+    //                     $('#emailError').text('Email already registered.').show();
+    //                     $('#email').addClass('is-invalid');
+    //                 } else {
+    //                     $('#emailError').text('').hide();
+    //                     $('#email').removeClass('is-invalid');
+    //                 }
+    //             }
+    //         });
+    //     });
+    // });
+</script>
 
 <div class="container py-5">
     <div class="card signup-card">

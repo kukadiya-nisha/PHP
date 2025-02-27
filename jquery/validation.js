@@ -34,6 +34,13 @@ $(document).ready(function () {
         else if (fieldType.includes("max") && value.length > maxLength) {
             errorMessage = `Must be less than ${maxLength} characters.`;
         }
+         // File upload validation
+        else if (fieldType.includes("file") && !/\.(jpg|jpeg|png)$/i.test(value)) {
+            errorMessage = "Only JPG, JPEG, or PNG files are allowed.";
+        }
+        else if (fieldType.includes("file") && field[0].files[0].size > 200000) {
+            errorMessage = "File size must be less than 200KB.";
+        }
 
         // Show or clear error message
         if (errorMessage) {
