@@ -18,6 +18,22 @@ $(document).ready(function () {
         else if (fieldType.includes("email") && !/^\S+@\S+\.\S+$/.test(value)) {
             errorMessage = "Enter a valid email.";
         }
+        // Strong password validation
+        else if (fieldType.includes("strongPassword") && !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).{8,}$/.test(value)) {
+            errorMessage = "Password must be at least 8 characters, including uppercase and lowercase letters, numbers, and a special character.";
+        }
+        // Confirm password validation
+        else if (fieldType.includes("confirmPassword")) {
+            let confirmPassword = field.val().trim();
+            let password = $("#" + field.data("password-id")).val().trim();
+            if (confirmPassword !== password) {
+                errorMessage = "Passwords do not match.";
+            }
+        }
+        // Terms and Conditions validation
+        else if (fieldType.includes("terms") && !field.is(":checked")) {
+            errorMessage = "You must agree to the Terms & Conditions.";
+        }
         // Alphabetical validation
         else if (fieldType.includes("alpha") && !/^[A-Za-z\s]+$/.test(value)) {
             errorMessage = "Only letters are allowed.";
@@ -49,7 +65,7 @@ $(document).ready(function () {
             field.removeClass("is-valid"); // Add red border
         } else {
             errorSpan.text("").hide();
-            field.removeClass("invalid");
+            field.removeClass("is-invalid");
             field.addClass("is-valid"); // Remove red border
         }
     }

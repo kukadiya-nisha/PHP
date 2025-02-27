@@ -45,22 +45,27 @@
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" data-validation="required email">
+                    <div class="error" id="emailError"> </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Create password">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Create password" data-validation="required strongPassword">
+                    <div class="error" id="passwordError"></div>
                 </div>
 
-                <div class="mb-3">
+                <div class=" mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"
+                        data-validation="required confirmPassword" data-password-id="password">
+                    <div class="error" id="confirmPasswordError"></div>
                 </div>
 
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="terms" name="terms">
+                    <input type="checkbox" class="form-check-input" id="terms" name="terms" data-validation="terms">
                     <label class="form-check-label" for="terms">I agree to the Terms & Conditions</label>
+                    <div class="error" id="termsError"></div>
                 </div>
 
                 <button type="submit" class="btn btn-outline-danger w-100 mb-3">Sign Up</button>
