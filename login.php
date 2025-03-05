@@ -30,7 +30,7 @@
                 <button type="submit" class="btn btn-outline-danger w-100 mb-3">Login</button>
             </form>
             <div class="text-center mb-3">
-                <a href="forgot.php" class="text-danger text-decoration-none">Forgot password?</a>
+                <a href="forgot_password.php" class="text-danger text-decoration-none">Forgot password?</a>
             </div>
             <div class="text-center">
                 <p class="mb-0">Don't have an account?

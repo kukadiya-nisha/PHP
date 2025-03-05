@@ -1,7 +1,7 @@
 <?php include 'header.php'; ?>
 
 <style>
-   
+
 </style>
 
 <div class="container py-5">
@@ -10,14 +10,15 @@
             <h2 class="text-center mb-4">Forgot Password</h2>
             <p class="text-muted text-center mb-4">Enter your email address and we'll send you instructions to reset your password.</p>
 
-            <form action="otp.php">
+            <form action="verify_otp.php">
                 <div class="mb-4">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                    <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" data-validation="required email">
+                    <div class="error" id="emailError"></div>
                 </div>
 
                 <button type="submit" class="btn btn-outline-danger w-100 mb-3">Reset Password</button>
-                
+
                 <div class="text-center">
                     <a href="login.php" class="text-danger text-decoration-none">Back to Login</a>
                 </div>
