@@ -149,7 +149,7 @@ if (isset($_POST['signup_btn'])) {
         $mail->Host       = 'smtp.gmail.com';      // sets GMAIL as the SMTP server
         $mail->Port       = 465;                   // set the SMTP port for the GMAIL server
         $mail->Username   = "kansagrajanki@gmail.com";  // GMAIL username(from)
-        $mail->Password   = "inaz bmjb yvwf sfci";            // GMAIL password(from)
+        $mail->Password   = "password";            // GMAIL password(from)
         $mail->SetFrom('kansagrajanki@gmail.com', 'Student Demo Website'); //from
         $mail->AddReplyTo("kansagrajanki@gmail.com", "Student Demo Website"); //to
         $mail->Subject    = "Account Verification Link";
