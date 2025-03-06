@@ -115,7 +115,7 @@ if (isset($_POST['signup_btn'])) {
     $token = time();
 
     $insert = "INSERT INTO `registration`(`firstname`, `lastname`, `email`, `mobile`, `password`, `profile_picture`, `role`, `status`,`token`) VALUES ('$firstName','$lastName','$email','$mobile','$password','$profile_picture','User','Inactive','$token')";
-    echo $insert;
+    // echo $insert;
     if ($con->query($insert)) {
         if (!file_exists('images/profile_pictures')) {
             mkdir('images/profile_pictures');
@@ -161,8 +161,7 @@ if (isset($_POST['signup_btn'])) {
             setcookie('error', 'Failed to send the registration link', time() + 5);
         } else {
             setcookie('success', 'Registration Successfull. Account verification link has been sent to your email. Verify your email to login.', time() + 5);
-        }                 // 1 = errors and messages
-        // setcookie('success', 'Registration Successful', time() + 5);
+        }
     } else {
         setcookie('error', 'Registration Failed', time() + 5);
     }
