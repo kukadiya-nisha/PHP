@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -7,6 +8,7 @@
     <script src="css/jquery.validate.min.js"></script>
     <script src="css/additional-methods.min.js"></script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
         <div class="container">
@@ -55,6 +57,7 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                         <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
                         <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
+                        <li><a class="dropdown-item" href="admin_logout.php">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -66,6 +69,7 @@
             background-color: #dc3545;
             transition: all 0.3s;
         }
+
         .sidebar .nav-link {
             color: #fff;
             padding: 0.8rem 1rem;
@@ -73,6 +77,7 @@
             position: relative;
             overflow: hidden;
         }
+
         .sidebar .nav-link:before {
             content: '';
             position: absolute;
@@ -83,13 +88,16 @@
             background-color: #fff;
             transition: width 0.3s ease;
         }
+
         .sidebar .nav-link:hover:before {
             width: 100%;
         }
+
         .sidebar .nav-link:hover {
             background-color: rgba(255, 255, 255, 0.1);
             transform: translateX(5px);
         }
+
         .sidebar .nav-link i {
             margin-right: 0.5rem;
         }

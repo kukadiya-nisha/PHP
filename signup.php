@@ -25,8 +25,10 @@ require('PHPMailer\Exception.php'); ?>
                         $('#emailError').text('Email already registered.').show();
                         $('#email').addClass('is-invalid');
                     } else {
-                        $('#emailError').text('').hide();
+                        $('#emailError').text('This email is available').show();
                         $('#email').removeClass('is-invalid');
+                        $('#email').addClass('is-valid');
+                        $('#emailError').addClass('text-success');
                     }
                 }
             });

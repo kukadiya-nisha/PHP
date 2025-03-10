@@ -8,7 +8,7 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
     $r = mysqli_fetch_assoc($count);
     if ($count->num_rows == 1) {
         if ($r['status'] == 'Inactive') {
-            $update = "UPDATE registration SET status = 'active' WHERE email = '$email'";
+            $update = "UPDATE registration SET status = 'Active' WHERE email = '$email'";
             if ($con->query($update)) {
                 setcookie('success', 'Account Verification Successful', time() + 5);
             } else {
