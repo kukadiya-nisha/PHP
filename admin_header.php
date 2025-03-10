@@ -1,3 +1,15 @@
+<?php
+include_once('db_connect.php');
+session_start();
+
+if (!isset($_SESSION['admin'])) {
+?>
+    <script>
+        window.location.href = "login.php";
+    </script>
+<?php
+}
+?>
 <html>
 
 <head>
@@ -7,10 +19,13 @@
     <script src="css/jquery-3.6.0.min.js"></script>
     <script src="css/jquery.validate.min.js"></script>
     <script src="css/additional-methods.min.js"></script>
+    <script src="jquery/validation.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top fixed">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.php">E-Shop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -55,8 +70,8 @@
                         <i class="bi bi-person"></i> Profile
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
-                        <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
+                        <li><a class="dropdown-item" href="admin_profile.php">My Profile</a></li>
+                        <li><a class="dropdown-item" href="admin_change_password.php">Change Password</a></li>
                         <li><a class="dropdown-item" href="admin_logout.php">Logout</a></li>
                     </ul>
                 </div>
@@ -199,7 +214,30 @@
             <!-- Main content -->
             <div class="col-12 col-md-9 col-lg-10 px-3 px-md-4">
                 <!-- Toggle button for mobile -->
-                <button class="btn btn-danger d-md-none mb-3" type="button" data-bs-toggle="offcanvas"
+
+                <button class="btn btn-danger d-md-none mt-2" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#sidebar">
                     <i class="bi bi-list"></i>
+                    Admin Menu
                 </button>
+            </div>
+            <div class="container">
+                <?php
+                if (isset($_COOKIE['success'])) {
+                ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> <?php echo $_COOKIE['success']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                }
+                if (isset($_COOKIE['error'])) {
+                ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong><?php echo $_COOKIE['error']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                }
+                ?>
+            </div>
