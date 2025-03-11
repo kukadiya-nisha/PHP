@@ -80,9 +80,11 @@ if (!isset($_SESSION['admin'])) {
     </nav>
     <style>
         .sidebar {
-            min-height: 100vh;
+            min-height: 93vh;
+            max-height: 93vh;
             background-color: #dc3545;
             transition: all 0.3s;
+            position: fixed;
         }
 
         .sidebar .nav-link {
@@ -220,8 +222,8 @@ if (!isset($_SESSION['admin'])) {
                     <i class="bi bi-list"></i>
                     Admin Menu
                 </button>
-            </div>
-            <div class="container">
+
+
                 <?php
                 if (isset($_COOKIE['success'])) {
                 ?>
@@ -240,4 +242,3 @@ if (!isset($_SESSION['admin'])) {
                 <?php
                 }
                 ?>
-            </div>
