@@ -21,7 +21,7 @@ include_once("db_connect.php");
 </head>
 
 <body>
-    <?php 
+    <?php
     // Include the database connection file
     include_once 'config.php';
     ?>
@@ -43,16 +43,15 @@ include_once("db_connect.php");
                             Categories
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-<?php 
-    $select="select * from categories where category_status='active'";
-    $table=mysqli_query($con,$select);
-    while($row=$table->fetch_assoc())
-    {
-        ?>
-            <li><a class="dropdown-item" href="all_products.php"><?= $row['category_name'] ?></a></li>
-        <?php
-    }
-?>
+                            <?php
+                            $select = "select * from categories where category_status='active'";
+                            $table = mysqli_query($con, $select);
+                            while ($row = $table->fetch_assoc()) {
+                            ?>
+                                <li><a class="dropdown-item" href="all_products.php"><?= $row['category_name'] ?></a></li>
+                            <?php
+                            }
+                            ?>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -71,25 +70,40 @@ include_once("db_connect.php");
                     <button class="btn btn-outline-light" type="submit">Search</button>
                 </form>
                 <div class="d-flex mx-2">
-                    <a href="cart.php" class="btn btn-outline-light me-2">
-                        <i class="bi bi-cart"></i> Cart
-                    </a>
-                    <a href="login.php" class="btn btn-outline-light">
+                    <?php
+                    if (isset($_SESSION['user'])) {
+                    ?>
+                        <a href="cart.php" class="btn btn-outline-light me-2">
+                            <i class="bi bi-cart"></i> Cart
+                        </a>
+                    <?php
+                    }
+                    ?>
+                    <a href="login.php" class="btn btn-outline-light me-2">
                         <i class="bi bi-person"></i> Login
                     </a>
-                </div>
-                <div class="nav-item dropdown">
-                    <a class="btn btn-outline-light dropdown-toggle" href="#" id="profileDropdown" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person"></i> Profile
+                    <a href="signup.php" class="btn btn-outline-light">
+                        <i class="bi bi-person"></i> Register
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
-                        <li><a class="dropdown-item" href="orders.php">My Orders</a></li>
-                        <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
-                        <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
-                    </ul>
                 </div>
+                <?php
+                if (isset($_SESSION['user'])) {
+                ?>
+                    <div class="nav-item dropdown">
+                        <a class="btn btn-outline-light dropdown-toggle" href="#" id="profileDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person"></i> Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
+                            <li><a class="dropdown-item" href="orders.php">My Orders</a></li>
+                            <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
+                            <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
+                        </ul>
+                    </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </nav>
