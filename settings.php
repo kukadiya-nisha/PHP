@@ -1,11 +1,12 @@
-<?php include 'admin_header.php'; 
-
+<?php 
+include 'admin_header.php'; 
+ $folder_name = "images/slider_images/";
 if (isset($_POST['Add_Slider'])) {
     $Slider_Image = $_FILES['Slider_Image']['name'];
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($Slider_Image);
+   
+    $target_file = $folder_name . $Slider_Image;
     move_uploaded_file($_FILES['Slider_Image']['tmp_name'], $target_file);
-    $insert = "INSERT INTO sliders (image) VALUES ('$Slider_Image')";
+    $insert = "INSERT INTO slider (slider_image) VALUES ('$Slider_Image')";
     $result = mysqli_query($con, $insert);
     if ($result) {
         echo "<script>alert('Slider Image Added Successfully');</script>";
@@ -17,7 +18,7 @@ if (isset($_POST['Add_Slider'])) {
 
 if (isset($_POST['editSlider_form'])) {
     $id = $_POST['id'];
-    $select = "SELECT * FROM sliders WHERE id = $id";
+    $select = "SELECT * FROM slider WHERE id = $id";
     $table = mysqli_query($con, $select);
     $row = $table->fetch_assoc();
     ?>
@@ -28,6 +29,8 @@ if (isset($_POST['editSlider_form'])) {
         <div class="card-body">
             <form method="post" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                <input type="hidden" name="old_image" value="<?= $row['slider_image'] ?>">
+                <img src="<?= $folder_name.$row['slider_image'] ?>" alt="Slider Image" width="100">
                 <div class="mb-3">
                     <label class="form-label">Slider Image</label>
                     <input type="file" class="form-control" name="Slider_Image" required>
@@ -43,11 +46,13 @@ if (isset($_POST['editSlider_form'])) {
 
 if (isset($_POST['edit_Slider'])) {
     $id = $_POST['id'];
+    $old_image=$folder_name.$_POST['old_image'];
     $Slider_Image = $_FILES['Slider_Image']['name'];
-    $target_dir = "uploads/";
-    $target_file = $target_dir . basename($Slider_Image);
+    $target_file = $folder_name .$Slider_Image;
+    unlink("$old_image");
     move_uploaded_file($_FILES['Slider_Image']['tmp_name'], $target_file);
-    $update = "UPDATE sliders SET image='$Slider_Image' WHERE id = $id";
+    $update = "UPDATE slider SET slider_image='$Slider_Image' WHERE id = $id";
+    
     $result = mysqli_query($con, $update);
     if ($result) {
         echo "<script>alert('Slider Image Updated Successfully');</script>";
@@ -59,7 +64,9 @@ if (isset($_POST['edit_Slider'])) {
 
 if (isset($_POST['deleteSlider'])) {
     $id = $_POST['id'];
-    $delete = "DELETE FROM sliders WHERE id = $id";
+    $old_image=$folder_name.$_POST['old_image'];
+    unlink("$old_image");
+    $delete = "DELETE FROM slider WHERE id = $id";
     $result = mysqli_query($con, $delete);
     if ($result) {
         echo "<script>alert('Slider Image Deleted Successfully');</script>";
@@ -125,14 +132,15 @@ while ($row = $table->fetch_assoc()) {
 ?>
                                 <tr class="align-middle">
                                     <td><?= $row['id'] ?></td>
-                                    <td><img src="uploads/<?= $row['image'] ?>" alt="Slider Image" width="100"></td>
-                                    <td class="d-flex">
+                                    <td><img src="<?= $folder_name.$row['slider_image'] ?>" alt="Slider Image" width="100"></td>
+                                    <td>
                                         <form method="post">
                                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                             <input type="submit" name="editSlider_form" class="btn btn-sm btn-outline-warning me-1" value="Edit">
                                         </form>
                                         <form method="post">
                                             <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                            <input type="hidden" name="old_image" value="<?= $row['slider_image'] ?>">
                                             <input type="submit" name="deleteSlider" class="btn btn-sm btn-outline-danger me-1" value="Delete">
                                         </form>
                                     </td>
