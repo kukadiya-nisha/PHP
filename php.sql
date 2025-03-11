@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 10, 2025 at 06:43 AM
+-- Generation Time: Mar 11, 2025 at 06:22 AM
 -- Server version: 8.0.30
--- PHP Version: 8.3.8
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,8 +18,28 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `2024_25_4dce_a_b_sample`
+-- Database: `php`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int NOT NULL,
+  `category_name` varchar(50) NOT NULL,
+  `category_status` varchar(10) NOT NULL DEFAULT 'inactive'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `category_name`, `category_status`) VALUES
+(1, 'Electronics', 'inactive'),
+(2, 'Fashion', 'active');
 
 -- --------------------------------------------------------
 
@@ -52,11 +72,39 @@ INSERT INTO `registration` (`id`, `firstname`, `lastname`, `email`, `mobile`, `p
 (9, 'janki', 'kansagra', 'kansagrajanki@gmail.com', 4756912242, 'Janki@1234', '67c916f499e7815.jpg', 'User', 'Inactive', ''),
 (11, 'NAnera', 'Punit', 'pnanera073@rku.ac.in', 8528528523, 'Punit@1234', '67c91cb67241314.jpg', 'User', 'Active', ''),
 (13, 'Nisha', 'Kukadiya', 'nisha.kukadiya@rku.ac.in', 1231231234, 'Nisha@1234', '67c947d2a385f14.jpg', 'User', 'Inactive', '67c947d2a38631741244370'),
-(14, 'Kirtan', 'Poshiya', 'kposhiya476@rku.ac.in', 8528528526, 'Kirtan@1234', '67ce76f2d1ed413.jpg', 'User', 'Active', '67ce76f2d1ed71741584114');
+(14, 'Kirtan', 'Poshiya', 'kposhiya476@rku.ac.in', 8528528526, 'Kirtan@1234', '67ce76f2d1ed413.jpg', 'User', 'Active', '67ce76f2d1ed71741584114'),
+(15, 'nisha', 'kukadiya', 'kukadiyanisha@gmail.com', 7990175737, 'Nisha@123', '67cfacf2a0278WhatsApp Image 2024-11-28 at 2.27.33 PM.jpeg', 'Admin', 'Active', '1741663474');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slider`
+--
+
+CREATE TABLE `slider` (
+  `id` int NOT NULL,
+  `slider_image` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `slider`
+--
+
+INSERT INTO `slider` (`id`, `slider_image`) VALUES
+(1, 'image.jpg'),
+(2, 'j2zi31lqofw1abqfrjux.jpg'),
+(5, 'Product_of_the_Year_USA_2017_Winners.jpg'),
+(6, 'images (1).jpg');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `registration`
@@ -66,14 +114,32 @@ ALTER TABLE `registration`
   ADD UNIQUE KEY `email` (`email`);
 
 --
+-- Indexes for table `slider`
+--
+ALTER TABLE `slider`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT for table `slider`
+--
+ALTER TABLE `slider`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
