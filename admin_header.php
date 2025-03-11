@@ -11,7 +11,7 @@
 
 <body>
     <?php 
-    include('db_connect.php');
+    include_once('db_connect.php');
     ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
         <div class="container">
@@ -31,18 +31,9 @@
                             Categories
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-<?php 
-    $select="select * from categories where category_status='active'";
-    $table=mysqli_query($con,$select);
-    while($row=$table->fetch_assoc())
-    {
-        ?>
- <li><a class="dropdown-item" href="all_products.php"><?= $row['category_name'] ?></a></li>
-        <?php
-    }
-?>
-                           
-                            
+                            <li><a class="dropdown-item" href="all_products.php">Electronics</a></li>
+                            <li><a class="dropdown-item" href="all_products.php">Fashion</a></li>
+                            <li><a class="dropdown-item" href="all_products.php">Home & Living</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -77,11 +68,9 @@
     </nav>
     <style>
         .sidebar {
-            min-height: 93vh;
-            max-height: 93vh;
+            min-height: 100vh;
             background-color: #dc3545;
             transition: all 0.3s;
-            position: fixed;
         }
 
         .sidebar .nav-link {
@@ -217,24 +206,3 @@
                     data-bs-target="#sidebar">
                     <i class="bi bi-list"></i>
                 </button>
-            </div>
-            <div class="container">
-                <?php
-                if (isset($_COOKIE['success'])) {
-                ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>Success!</strong> <?php echo $_COOKIE['success']; ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php
-                }
-                if (isset($_COOKIE['error'])) {
-                ?>
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong>Error!</strong><?php echo $_COOKIE['error']; ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php
-                }
-                ?>
-            </div>
