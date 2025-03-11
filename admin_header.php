@@ -19,10 +19,11 @@ if (!isset($_SESSION['admin'])) {
     <script src="css/jquery-3.6.0.min.js"></script>
     <script src="css/jquery.validate.min.js"></script>
     <script src="css/additional-methods.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-    <?php 
+    <?php
     include_once('db_connect.php');
     ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
@@ -70,8 +71,8 @@ if (!isset($_SESSION['admin'])) {
                         <i class="bi bi-person"></i> Profile
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                        <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
-                        <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
+                        <li><a class="dropdown-item" href="admin_profile.php">My Profile</a></li>
+                        <li><a class="dropdown-item" href="admin_change_password.php">Change Password</a></li>
                         <li><a class="dropdown-item" href="admin_logout.php">Logout</a></li>
                     </ul>
                 </div>
@@ -218,7 +219,7 @@ if (!isset($_SESSION['admin'])) {
                     data-bs-target="#sidebar">
                     <i class="bi bi-list"></i>
                 </button>
-                
+
                 <?php
                 if (isset($_COOKIE['success'])) {
                 ?>
