@@ -36,9 +36,16 @@
                             Categories
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="all_products.php">Electronics</a></li>
-                            <li><a class="dropdown-item" href="all_products.php">Fashion</a></li>
-                            <li><a class="dropdown-item" href="all_products.php">Home & Living</a></li>
+<?php 
+    $select="select * from categories where category_status='active'";
+    $table=mysqli_query($con,$select);
+    while($row=$table->fetch_assoc())
+    {
+        ?>
+            <li><a class="dropdown-item" href="all_products.php"><?= $row['category_name'] ?></a></li>
+        <?php
+    }
+?>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>

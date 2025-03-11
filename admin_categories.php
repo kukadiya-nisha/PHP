@@ -10,23 +10,35 @@ if (isset($_POST['Add_Category'])) {
             echo "<script>alert('Error Adding Category');</script>";
             }
 }
-if (isset($_POST['editCategory'])) {
+if (isset($_POST['editCategory_form'])) {
+    $id=$_POST['id'];
+    $select="select * from categories where id = $id";
+    $table=mysqli_query($con,$select);
+    $row=$table->fetch_assoc();
     ?>
-    <div class="card shadow-sm">
+    <div class="card shadow-sm my-5">
         <div class="card-header bg-danger text-white">
             <h5 class="mb-0">Edit Category</h5>
         </div>
         <div class="card-body">
                 <form method="post">
+                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
                     <div class="mb-3">
                         <label class="form-label">Category Name</label>
-                        <input type="text" class="form-control" name="Category_Name" required>
+                        <input type="text" class="form-control" name="Category_Name" value="<?= $row['category_name']; ?>" required>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Status</label>
-                        <select class="form-select">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                        <select class="form-select" name="category_status">
+                            <option value="active" <?php 
+                            if($row['category_status']== "active")
+                            echo "selected"
+                            ?>
+                             >Active</option>
+                            <option value="inactive" <?php 
+                            if($row['category_status']== "inactive")
+                            echo "selected"
+                            ?>>Inactive</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -36,6 +48,32 @@ if (isset($_POST['editCategory'])) {
             </div>
 </div>
     <?php
+}
+if (isset($_POST['edit_Category'])) {
+    $id=$_POST['id'];
+    $Category_Name=$_POST['Category_Name'];
+    $category_status=$_POST['category_status'];
+    $update="update categories set category_name='$Category_Name',category_status='$category_status' where id = $id";
+    $result=mysqli_query($con,$update);
+    if ($result) 
+    {
+        echo "<script>alert('Category Updated Successfully');</script>";
+        echo "<script>window.location.href='admin_categories.php';</script>";
+    } 
+    else 
+    echo "<script>alert('Error Upadting Category');</script>";
+}
+if (isset($_POST['deleteCategory'])) {
+    $id=$_POST['id'];
+    $delete="delete from categories where id = $id";
+    $result=mysqli_query($con,$delete);
+    if ($result) 
+    {
+        echo "<script>alert('Category Deleted Successfully');</script>";
+        echo "<script>window.location.href='admin_categories.php';</script>";
+    } 
+    else 
+    echo "<script>alert('Error Deleting Category');</script>";
 }
 ?>
 
@@ -121,7 +159,7 @@ else
                                     <td class="d-flex">
                                         <form method="post">
                                                 <input type="hidden" name="id" value="<?=$row['id']?>">
-                                                <input type="submit" name="editCategory" class="btn btn-sm btn-outline-warning me-1" value="Edit" >
+                                                <input type="submit" name="editCategory_form" class="btn btn-sm btn-outline-warning me-1" value="Edit" >
                                         </form>
                                         <form method="post">
                                                 <input type="hidden" name="id" value="<?=$row['id']?>">
@@ -192,5 +230,4 @@ else
     }
 </style>
 
-<?php include 'admin_footer.php'; ?>
 <?php include 'admin_footer.php'; ?>
