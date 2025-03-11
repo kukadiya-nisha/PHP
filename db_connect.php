@@ -1,6 +1,6 @@
 <?php
 try {
-    $con = mysqli_connect("localhost", "root", "", "2024_25_4DCE_A_B_Sample");
+    $con = mysqli_connect("localhost", "root", "", "php");
     // try {
     //     $q = "CREATE DATABASE IF NOT EXISTS `2024_25_4DCE_A_B_Sample`";
 
