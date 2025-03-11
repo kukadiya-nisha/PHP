@@ -1,7 +1,7 @@
 <?php include 'header.php'; ?>
 
 <style>
-   
+
 </style>
 
 <div class="container py-5">
@@ -22,7 +22,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-outline-danger w-100 mb-3">Update Password</button>
-                
+
                 <div class="text-center">
                     <a href="login.php" class="text-danger text-decoration-none">Back to Login</a>
                 </div>
