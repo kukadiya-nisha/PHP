@@ -1,4 +1,43 @@
-<?php include 'admin_header.php'; ?>
+<?php include 'admin_header.php'; 
+if (isset($_POST['Add_Category'])) {
+    $Category_Name = $_POST['Category_Name'];
+    $insert = "INSERT INTO categories (Category_Name) VALUES ('$Category_Name')";
+    $result = mysqli_query($con, $insert);
+    if ($result) {
+        echo "<script>alert('Category Added Successfully');</script>";
+        echo "<script>window.location.href='admin_categories.php';</script>";
+        } else {
+            echo "<script>alert('Error Adding Category');</script>";
+            }
+}
+if (isset($_POST['editCategory'])) {
+    ?>
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h5 class="mb-0">Edit Category</h5>
+        </div>
+        <div class="card-body">
+                <form method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Category Name</label>
+                        <input type="text" class="form-control" name="Category_Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select class="form-select">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="submit" class="btn btn-danger" value="Edit Category" name="edit_Category">
+                    </div>
+                </form>
+            </div>
+</div>
+    <?php
+}
+?>
 
 <div class="container-fluid py-4">
     <div class="row">
@@ -24,7 +63,30 @@
                             </button>
                         </div>
                     </div>
-
+<!-- Add Category Modal -->
+<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Add New Category</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addCategoryForm" method="post">
+                    <div class="mb-3">
+                        <label class="form-label">Category Name</label>
+                        <input type="text" class="form-control" name="Category_Name" required>
+                    </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <input type="submit" form="addCategoryForm" class="btn btn-danger" value="Add Category" name="Add_Category">
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
                     <!-- Categories Table -->
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
@@ -37,42 +99,42 @@
                                 </tr>
                             </thead>
                             <tbody>
+<?php
+$select = "SELECT * FROM categories";
+$table = mysqli_query($con, $select);
+while ($row = $table->fetch_assoc()) {
+?>
                                 <tr class="align-middle">
-                                    <td>#CAT001</td>
-                                    <td>Electronics</td>
-                                    <td><span class="badge bg-success">Active</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#viewCategoryModal">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-warning me-1" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
+                                    <td><?= $row['id'] ?></td>
+                                    <td><?= $row['category_name'] ?></td>
+                                    <td><span class="badge bg-<?php 
+if($row['category_status']=="inactive")
+{
+    echo "danger";
+}
+else 
+{
+    echo "success";
+}
+?>
+"><?= $row['category_status'] ?></span></td>
+                                    <td class="d-flex">
+                                        <form method="post">
+                                                <input type="hidden" name="id" value="<?=$row['id']?>">
+                                                <input type="submit" name="editCategory" class="btn btn-sm btn-outline-warning me-1" value="Edit" >
+                                        </form>
+                                        <form method="post">
+                                                <input type="hidden" name="id" value="<?=$row['id']?>">
+                                                <input type="submit" name="deleteCategory" class="btn btn-sm btn-outline-danger me-1" value="Delete" >
+                                        </form>
                                     </td>
                                 </tr>
-                                <tr class="align-middle">
-                                    <td>#CAT002</td>
-                                    <td>Clothing</td>
-                                    <td><span class="badge bg-success">Active</span></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#viewCategoryModal">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-warning me-1" data-bs-toggle="modal" data-bs-target="#editCategoryModal">
-                                            <i class="bi bi-pencil"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+<?php
+}
+?>
                             </tbody>
                         </table>
                     </div>
-
                     <!-- Pagination -->
                     <nav aria-label="Category pagination" class="mt-4">
                         <ul class="pagination justify-content-center">
@@ -92,78 +154,6 @@
         </div>
     </div>
 </div>
-
-<!-- View Category Modal -->
-<div class="modal fade" id="viewCategoryModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Category Details</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p><strong>Category Name:</strong> Electronics</p>
-                <p><strong>Status:</strong> <span class="badge bg-success">Active</span></p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Category Modal -->
-<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Edit Category</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editCategoryForm">
-                    <div class="mb-3">
-                        <label class="form-label">Category Name</label>
-                        <input type="text" class="form-control" value="Electronics">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select class="form-select">
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" form="editCategoryForm" class="btn btn-danger">Save Changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Add Category Modal -->
-<div class="modal fade" id="addCategoryModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title">Add New Category</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="addCategoryForm">
-                    <div class="mb-3">
-                        <label class="form-label">Category Name</label>
-                        <input type="text" class="form-control" required>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" form="addCategoryForm" class="btn btn-danger">Add Category</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <style>
     /* Hover effects */
     .table tbody tr {
@@ -202,4 +192,5 @@
     }
 </style>
 
+<?php include 'admin_footer.php'; ?>
 <?php include 'admin_footer.php'; ?>

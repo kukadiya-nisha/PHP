@@ -8,6 +8,10 @@
     <script src="css/additional-methods.min.js"></script>
 </head>
 <body>
+<?php 
+    // Include the database connection file
+    include_once 'config.php';
+    ?>
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger sticky-top">
         <div class="container">
             <a class="navbar-brand fw-bold" href="index.php">E-Shop</a>
