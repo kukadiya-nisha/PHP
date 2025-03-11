@@ -1,3 +1,15 @@
+<?php
+include_once('db_connect.php');
+session_start();
+
+if (!isset($_SESSION['admin'])) {
+?>
+    <script>
+        window.location.href = "login.php";
+    </script>
+<?php
+}
+?>
 <html>
 
 <head>
@@ -206,3 +218,22 @@
                     data-bs-target="#sidebar">
                     <i class="bi bi-list"></i>
                 </button>
+                
+                <?php
+                if (isset($_COOKIE['success'])) {
+                ?>
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>Success!</strong> <?php echo $_COOKIE['success']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                }
+                if (isset($_COOKIE['error'])) {
+                ?>
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error!</strong><?php echo $_COOKIE['error']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php
+                }
+                ?>
