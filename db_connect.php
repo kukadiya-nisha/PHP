@@ -26,7 +26,7 @@ try {
     //   `status` char(10) NOT NULL DEFAULT 'Inactive'
     // )";
 
-    // $q = "CREATE TABLE password_token (id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL, otp INT NOT NULL,created_at DATETIME NOT NULL,expires_at DATETIME NOT NULL)";
+    // $q = "CREATE TABLE password_token (id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL, otp INT NOT NULL,created_at DATETIME NOT NULL,otp_attempts INT NOT NULL,last_resend TIMESTAMP DEFAULT CURRENT_TIMESTAMP)";
     // try {
     //     if ($con->query($q)) {
     //         echo "Table Created Successfully";
