@@ -1,8 +1,19 @@
 <?php
 session_start();
 ob_start();
-
 include_once("db_connect.php");
+include_once("mailer.php");
+date_default_timezone_set('Asia/Kolkata');
+$current_time = date("Y-m-d H:i:s");
+// $delete_query = "DELETE FROM password_token WHERE expires_at < '$current_time'";
+// $con->query($delete_query);
+$q = "UPDATE password_token 
+SET otp_attempts = 0 
+WHERE TIMESTAMPDIFF(HOUR, last_resend, NOW()) >= 24";
+
+$con->query($q);
+
+
 ?>
 
 <html>

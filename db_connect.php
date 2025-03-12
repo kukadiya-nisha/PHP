@@ -25,12 +25,15 @@ try {
     //   `role` char(10)  NOT NULL DEFAULT 'User',
     //   `status` char(10) NOT NULL DEFAULT 'Inactive'
     // )";
-    //         if ($con->query($registration)) {
-    //             echo "Table Created Successfully";
-    //         }
-    //     } catch (Exception $e) {
-    //         echo "Error in Creating Table" . $e->getMessage();
+
+    // $q = "CREATE TABLE password_token (id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL, otp INT NOT NULL,created_at DATETIME NOT NULL,expires_at DATETIME NOT NULL)";
+    // try {
+    //     if ($con->query($q)) {
+    //         echo "Table Created Successfully";
     //     }
+    // } catch (Exception $e) {
+    //     echo "Error in Creating Table" . $e->getMessage();
+    // }
 } catch (Exception $e) {
     echo "Error in Connecting with Database Server" . $e->getMessage();;
 }
