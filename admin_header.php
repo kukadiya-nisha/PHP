@@ -206,7 +206,17 @@ if (!isset($_SESSION['admin'])) {
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" href="settings.php">
-                                <i class="bi bi-gear"></i> Settings
+                                <i class="bi bi-gear"></i> Inquiries
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="admin_logout.php">
+                                <i class="bi bi-box-arrow-right-right"></i> Site Settings
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                    <li><a class="dropdown-item" href="admin_profile.php">My Profile</a></li>
+                                    <li><a class="dropdown-item" href="admin_change_password.php">Change Password</a></li>
+                                    <li><a class="dropdown-item" href="admin_logout.php">Logout</a></li>
+                                </ul>
                             </a>
                         </li>
                     </ul>
