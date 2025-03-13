@@ -21,7 +21,7 @@ if (isset($_SESSION['forgot_email'])) {
     // }
 
     // Block further resends after 3 attempts
-    if ($attempts >= 2) {
+    if ($attempts >= 3) {
         setcookie('error', "OTP resend limit reached. you can generate a new OTP after 24 hours.", time() + 5, "/");
 ?>
         <script>
@@ -30,10 +30,11 @@ if (isset($_SESSION['forgot_email'])) {
         <?php
         exit();
     }
-
+    $email_time = date("Y-m-d H:i:s");
+    $expiry_time = date("Y-m-d H:i:s", strtotime('+2 minutes'));
     // Generate a new OTP
     $new_otp = rand(100000, 999999);
-    $updateQuery = "UPDATE password_token SET otp=$new_otp, otp_attempts=$attempts+1, last_resend=now() WHERE email='$email'";
+    $updateQuery = "UPDATE password_token SET otp=$new_otp, otp_attempts=$attempts+1, last_resend=now(), created_at='$email_time', expires_at='$expiry_time' WHERE email='$email'";
     if ($con->query($updateQuery)) {
         $to = $email;
         $subject = "Reset password";

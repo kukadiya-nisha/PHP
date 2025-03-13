@@ -1,9 +1,4 @@
 <?php include 'header.php'; ?>
-
-<style>
-
-</style>
-
 <div class="container py-5">
     <div class="card otp-card">
         <div class="card-body p-4">
@@ -30,7 +25,7 @@
                     </button>
                 </div>
                 <script>
-                    let timeLeft = 10; // 1 minute timer
+                    let timeLeft = 120; // 1 minute timer
                     const timerDisplay = document.getElementById('timer');
                     const resendButton = document.getElementById('resend_otp');
 
@@ -42,7 +37,7 @@
                                 clearInterval(countdown);
                                 timerDisplay.innerHTML = "You can now resend the OTP.";
                                 resendButton.style.display = "inline";
-                                timeLeft = 10;
+                                timeLeft = 120;
                             } else {
                                 timerDisplay.innerHTML = `Resend OTP in ${timeLeft} seconds`;
                             }
@@ -103,7 +98,7 @@ if (isset($_POST['otp_btn'])) {
         $otp6 = $_POST['otp6'];
 
         $otp = $otp1 . $otp2 . $otp3 . $otp4 . $otp5 . $otp6;
-        echo $otp;
+        // echo $otp;
 
         // Fetch the OTP from the database for the given email
         $query = "SELECT otp FROM password_token WHERE email = '$email' ";
@@ -112,24 +107,33 @@ if (isset($_POST['otp_btn'])) {
         if ($result && mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
             $db_otp = $row['otp'];
-
-            // Compare the OTPs
-            if ($otp == $db_otp) {
-                // Redirect to new password page
+            if (!$db_otp) {
+                setcookie('error', 'OTP has expired. Regenerate New OTP', time() + 5, '/');
 ?>
                 <script>
-                    window.location.href = 'reset_password.php';
+                    window.location.href = 'forgot_password.php';
                 </script>
-            <?php
+                <?php
+            }
+            // Compare the OTPs
+            else {
+                if ($otp == $db_otp) {
+                    // Redirect to new password page
+                ?>
+                    <script>
+                        window.location.href = 'reset_password.php';
+                    </script>
+                <?php
 
-            } else {
-                setcookie('error', 'Incorrect OTP', time() + 5, '/');
-            ?>
+                } else {
+                    setcookie('error', 'Incorrect OTP', time() + 5, '/');
+                ?>
 
-                <script>
-                    window.location.href = 'otp_form.php';
-                </script>
+                    <script>
+                        window.location.href = 'otp_form.php';
+                    </script>
             <?php
+                }
             }
         } else {
             setcookie('error', 'OTP has expired. Regenerate New OTP', time() + 5, '/');

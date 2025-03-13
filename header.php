@@ -10,15 +10,16 @@ $current_time = date("Y-m-d H:i:s");
 $q = "UPDATE password_token 
 SET otp_attempts = 0 
 WHERE TIMESTAMPDIFF(HOUR, last_resend, NOW()) >= 24";
-
 $con->query($q);
-
+$remove_otp = "update password_token set otp=NULL WHERE expires_at < '$current_time'";
+$con->query($remove_otp);
 
 ?>
 
 <html>
 
 <head>
+    <!-- <meta http-equiv="refresh" content="121"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-icons.css">
@@ -124,7 +125,7 @@ $con->query($q);
         if (isset($_COOKIE['success'])) {
         ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success!</strong> <?php echo $_COOKIE['success']; ?>
+                <strong>Success!</strong> <?php echo " " . $_COOKIE['success']; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php
@@ -132,7 +133,7 @@ $con->query($q);
         if (isset($_COOKIE['error'])) {
         ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong><?php echo $_COOKIE['error']; ?>
+                <strong>Error!</strong><?php echo " " . $_COOKIE['error']; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php

@@ -51,26 +51,8 @@ if (isset($_POST['forgot_btn'])) {
 
     $query = "SELECT * FROM password_token WHERE email = '$email'";
     $result = mysqli_fetch_assoc($con->query($query));
-    if ($result) {
-        $otp_attempt = $result['otp_attempts'];
-        $otp_attempt++;
-    } else {
-        $otp_attempt = 0;
-    }
-
-
-    if ($otp_attempt >= 3) {
-        // Email exists, display error message and redirect to OTP form
-        setcookie('error', "The maximum limit for generating OTP is reached you can generate a new OTP after 24 hours from the last OTP generated time.", time() + 5, "/");
-?>
-        <script>
-            window.location.href = "login.php";
-        </script>
-        <?php
-    } else {
-        $otp = rand(100000, 999999);
-        $token = md5($email . $otp);
-        $body = "<html>
+    $otp = rand(100000, 999999);
+    $body = "<html>
         <head>
             <style>
                 body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
@@ -94,26 +76,44 @@ if (isset($_POST['forgot_btn'])) {
         </body>
         </html>
         ";
-        $subject = "Password Reset - OTP";
-        if (sendEmail($email, $subject, $body, "")) {
-            $email_time = date("Y-m-d H:i:s");
-            $expiry_time = date("Y-m-d H:i:s", strtotime('+2 minutes')); // OTP valid for 10 minutes
-            $query = "INSERT INTO  password_token  (email, otp, created_at, expires_at,otp_attempts,last_resend) VALUES ('$email', '$otp', '$email_time', '$expiry_time',$otp_attempt,now())";
-            if ($con->query($query)) {
-                $_SESSION['forgot_email'] = $email;
-                setcookie('success', 'OTP sent to registered email address. the OTP will expire in 2 Minutes.', time() + 5);
-        ?>
-                <script>
-                    window.location.href = "otp_form.php";
-                </script>
-<?php
 
-            } else {
-                setcookie('error', 'Failed to generate OTP and store it in the database', time() + 5);
-            }
+    $subject = "Password Reset - OTP";
+    $email_time = date("Y-m-d H:i:s");
+    $expiry_time = date("Y-m-d H:i:s", strtotime('+2 minutes'));
+    if ($result) {
+        $attempts = $result['otp_attempts'];
+        if ($attempts >= 3) {
+            // Email exists, display error message and redirect to OTP form
+            setcookie('error', "The maximum limit for generating OTP is reached you can generate a new OTP after 24 hours from the last OTP generated time.", time() + 5, "/");
+
+?>
+            <script>
+                window.location.href = "login.php";
+            </script>
+        <?php
         } else {
-            setcookie('error', 'Failed to send the OTP in mail. Please try after sometime.', time() + 5);
+
+
+            $q = "UPDATE password_token SET otp=$otp, otp_attempts=$attempts+1, last_resend=now(), created_at = '$email_time', expires_at='$expiry_time' WHERE email='$email'";
         }
+    } else {
+        $attempts = 0;
+        $q = "INSERT INTO  password_token  (email, otp, created_at,expires_at,otp_attempts,last_resend) VALUES ('$email', '$otp', '$email_time','$expiry_time',$attempts,now())";
+    }
+    if (sendEmail($email, $subject, $body, "")) {
+        if ($con->query($q)) {
+            $_SESSION['forgot_email'] = $email;
+            setcookie('success', 'OTP sent to registered email address. the OTP will expire in 2 Minutes.', time() + 5);
+        ?>
+            <script>
+                window.location.href = "otp_form.php";
+            </script>
+<?php
+        } else {
+            setcookie('error', 'Failed to generate OTP and store it in the database', time() + 5);
+        }
+    } else {
+        setcookie('error', 'Failed to send the OTP in mail. Please try after sometime.', time() + 5);
     }
 }
 ?>

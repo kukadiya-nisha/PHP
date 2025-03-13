@@ -21,7 +21,7 @@
                 <div class="mb-4">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
                     <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password"
-                        data-validation="required confirmPassword" data-password-id="newPassword">
+                        data-validation="required confirmPassword" data-password-id="newPassword" name="confirmPassword">
                     <div class="error" id="confirmPasswordError"></div>
                 </div>
 
@@ -65,10 +65,17 @@ if (isset($_POST['reset_pwd_btn'])) {
             <script>
                 window.location.href = 'forgot_password.php';
             </script>
-<?php
+        <?php
 
 
         }
+    } else {
+        setcookie('error', 'No email found for resetting password.', time() + 5, '/');
+        ?>
+        <script>
+            window.location.href = 'forgot_password.php';
+        </script>
+<?php
     }
 }
 ?>
