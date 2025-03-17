@@ -111,6 +111,7 @@ $con->query($remove_otp);
                             <li><a class="dropdown-item" href="orders.php">My Orders</a></li>
                             <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
                             <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
+                            <li><a class="dropdown-item" href="user_logout.php">Logout</a></li>
                         </ul>
                     </div>
                 <?php

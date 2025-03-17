@@ -20,6 +20,7 @@ if (!isset($_SESSION['admin'])) {
     <script src="css/jquery.validate.min.js"></script>
     <script src="css/additional-methods.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <script src="jquery/validation.js"></script>
 </head>
 
 <body>

@@ -8,13 +8,6 @@ require('PHPMailer\PHPMailer.php');
 require('PHPMailer\SMTP.php');
 require('PHPMailer\Exception.php');
 
-// $to = "kansagrajanki@gmail.com";
-// $from = $to;
-// $subject = "PHPMailer Example";
-// $file = "";
-// $body = "This is a test email using PHPMailer.";
-
-// sendEmail($to, $subject, $body, "");
 function sendEmail($to, $subject, $body, $file)
 {
     $mail = new PHPMailer(true); // Enable exceptions
@@ -41,7 +34,7 @@ function sendEmail($to, $subject, $body, $file)
         $mail->Password   = "password";            // GMAIL password(from)
         $mail->SetFrom('kansagrajanki@gmail.com', 'Student Demo Website'); //from
         $mail->AddReplyTo("kansagrajanki@gmail.com", "Student Demo Website"); //to
-        $mail->Subject    = "Account Verification Link";
+        $mail->Subject    = $subject;
         $mail->AltBody    = "To view the message, please use an HTML compatible email viewer!";
         if ($file) {
             $mail->AddAttachment($file);

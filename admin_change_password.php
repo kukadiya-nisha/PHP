@@ -1,5 +1,26 @@
 <?php include 'admin_header.php'; ?>
-
+<script>
+    $(document).ready(function() {
+        $('#currentPassword').on('blur', function() {
+            var curPwd = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: 'check_current_password.php',
+                data: {
+                    cpassword: curPwd
+                },
+                success: function(response) {
+                    if (response == 'false') {
+                        $('#current_passwordError').text('Incorrect Old Password').show();
+                        $('#currentPassword').addClass('is-invalid');
+                        $('#currentPassword').removeClass('is-valid');
+                        $('#current_passwordError').addClass('text-danger');
+                    }
+                }
+            });
+        });
+    });
+</script>
 
 <div class="container my-5">
     <div class="row justify-content-center">
@@ -35,22 +56,15 @@
 <?php include 'admin_footer.php';
 
 if (isset($_POST['change_pwd_btn'])) {
-    $current_password = $_POST['current_password'];
     $new_password = $_POST['new_password'];
     $email = $_SESSION['admin'];
     // Code to update password in the database here
-    $q = "select * from registration where email= '$email'";
-    $result = $con->query($q);
-    $row = mysqli_fetch_assoc($result);
-    if ($current_password == $row['password']) {
-        $update = "UPDATE registration SET password='$new_password' WHERE email='$email'";
-        if ($con->query($update)) {
-            setcookie('success', 'Password updated successfully', time() + 5);
-        } else {
-            setcookie('error', 'Error in updating password', time() + 5);
-        }
+
+    $update = "UPDATE registration SET password='$new_password' WHERE email='$email'";
+    if ($con->query($update)) {
+        setcookie('success', 'Password updated successfully', time() + 5);
     } else {
-        setcookie('error', 'Current password is incorrect', time() + 5);
+        setcookie('error', 'Error in updating password', time() + 5);
     }
 ?>
     <script>

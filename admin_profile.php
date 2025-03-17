@@ -53,7 +53,7 @@ $row = mysqli_fetch_assoc($result);
 </div>
 
 <?php
- include 'admin_footer.php';
+include 'admin_footer.php';
 if (isset($_POST['update_btn'])) {
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
@@ -63,11 +63,13 @@ if (isset($_POST['update_btn'])) {
     if ($_FILES['profile_picture']['name'] != "") {
         $profile_picture = uniqid() . $_FILES['profile_picture']['name'];
         $profile_picture_tmp_name = $_FILES['profile_picture']['tmp_name'];
+
+        $q1 = "select * from registration where email='$email'";
+        $result = mysqli_fetch_assoc($con->query($q1));
+        $old_profile_picture = $result['profile_picture'];
     }
 
-    $q1 = "select * from registration where email='$email'";
-    $result = mysqli_fetch_assoc($con->query($q1));
-    $old_profile_picture = $result['profile_picture'];
+   
 
     $update = "UPDATE `registration` SET `firstname`='$firstName',`lastname`='$lastName',`mobile`=$mobile";
     if ($_FILES['profile_picture']['name'] != "") {

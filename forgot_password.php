@@ -85,15 +85,12 @@ if (isset($_POST['forgot_btn'])) {
         if ($attempts >= 3) {
             // Email exists, display error message and redirect to OTP form
             setcookie('error', "The maximum limit for generating OTP is reached you can generate a new OTP after 24 hours from the last OTP generated time.", time() + 5, "/");
-
 ?>
             <script>
                 window.location.href = "login.php";
             </script>
         <?php
         } else {
-
-
             $q = "UPDATE password_token SET otp=$otp, otp_attempts=$attempts+1, last_resend=now(), created_at = '$email_time', expires_at='$expiry_time' WHERE email='$email'";
         }
     } else {
