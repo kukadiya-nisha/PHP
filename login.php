@@ -74,7 +74,7 @@ if (isset($_POST['login_btn'])) {
         <?php
         }
     } else {
-        setcookie("error", "Invalid username or password", time() + 5, "/");
+        setcookie("error", "Incorrect username or password", time() + 5, "/");
         ?>
         <script>
             window.location.href = "login.php";

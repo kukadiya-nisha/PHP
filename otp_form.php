@@ -25,23 +25,27 @@
                     </button>
                 </div>
                 <script>
+                    
                     let timeLeft = 120; // Default timer value
                     const timerDisplay = document.getElementById('timer');
                     const resendButton = document.getElementById('resend_otp');
 
-                    // Check if the user is coming from another page (not a refresh)
-                    if (performance.navigation.type === 1 || document.referrer === "") {
-                        // Page is refreshed, so use sessionStorage timer
-                        if (sessionStorage.getItem('otpTimer')) {
-                            timeLeft = parseInt(sessionStorage.getItem('otpTimer'), 10);
-                        }
+                    // Function to check if the user is refreshing or coming from another page
+                    function isPageRefresh() {
+                        return !!sessionStorage.getItem('otpTimer'); // If otpTimer exists, it's a refresh
+                    }
+
+                    // If the page is refreshed, use sessionStorage value
+                    if (isPageRefresh()) {
+                        timeLeft = parseInt(sessionStorage.getItem('otpTimer'), 10);
                     } else {
-                        // User came from another page, reset timer
+                        // If the user comes from another page, reset timer
                         sessionStorage.setItem('otpTimer', 120);
+                        timeLeft = 120;
                     }
 
                     function startCountdown() {
-                        resendButton.style.display = "none"; // Hide button initially
+                        resendButton.style.display = "none"; // Hide the button initially
                         timerDisplay.innerHTML = `Resend OTP in ${timeLeft} seconds`;
 
                         const countdown = setInterval(() => {
@@ -49,7 +53,7 @@
                                 clearInterval(countdown);
                                 timerDisplay.innerHTML = "You can now resend the OTP.";
                                 resendButton.style.display = "inline";
-                                sessionStorage.removeItem('otpTimer'); // Clear storage after timer ends
+                                sessionStorage.removeItem('otpTimer'); // Clear sessionStorage after timer ends
                             } else {
                                 timerDisplay.innerHTML = `Resend OTP in ${timeLeft} seconds`;
                                 timeLeft -= 1;
@@ -58,7 +62,7 @@
                         }, 1000);
                     }
 
-                    // Start countdown if there's remaining time
+                    // Start countdown only if the timer is above 0
                     if (timeLeft > 0) {
                         startCountdown();
                     } else {
@@ -67,12 +71,11 @@
                     }
 
                     resendButton.onclick = function(event) {
-                        event.preventDefault();
+                        event.preventDefault(); // Prevent default form submission
                         sessionStorage.setItem('otpTimer', 120); // Reset timer
                         window.location.href = 'resend_otp_forgot_password.php';
                     };
                 </script>
-
                 <button type="submit" class="btn btn-outline-danger w-100 mb-3" name="otp_btn">Verify OTP</button>
             </form>
 

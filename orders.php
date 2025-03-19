@@ -1,7 +1,8 @@
-<?php include 'header.php'; ?>
-
+<?php include 'header.php';
+include_once('user_check_authentication.php');
+?>
 <style>
-  
+
 </style>
 
 <div class="container py-5">
@@ -47,4 +48,3 @@
 </div>
 
 <?php include 'footer.php'; ?>
-

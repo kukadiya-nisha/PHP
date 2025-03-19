@@ -159,9 +159,16 @@ if (!isset($_SESSION['admin'])) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="settings.php">
-                                <i class="bi bi-gear"></i> Settings
-                            </a>
+                            <a class="nav-link text-light dropdown-toggle" href="#" id="settingsDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-box-arrow-right-right"></i> Site Settings </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+                                <li><a class="dropdown-item" href="admin_slider_images.php">Slider Images</a></li>
+                                <li><a class="dropdown-item" href="admin_contact_us.php">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="admin_inquiry.php">Inquiries</a></li>
+                                <li><a class="dropdown-item" href="admin_footer.php">Footer</a></li>
+                            </ul>
+
                         </li>
                     </ul>
                 </div>
@@ -211,15 +218,19 @@ if (!isset($_SESSION['admin'])) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" href="admin_logout.php">
-                                <i class="bi bi-box-arrow-right-right"></i> Site Settings
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                                    <li><a class="dropdown-item" href="admin_profile.php">My Profile</a></li>
-                                    <li><a class="dropdown-item" href="admin_change_password.php">Change Password</a></li>
-                                    <li><a class="dropdown-item" href="admin_logout.php">Logout</a></li>
-                                </ul>
-                            </a>
+                            <a class="nav-link text-light dropdown-toggle" href="#" id="settingsDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-box-arrow-right-right"></i> Site Settings </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+                                <li><a class="dropdown-item" href="admin_slider_images.php">Slider Images</a></li>
+                                <li><a class="dropdown-item" href="admin_contact_us.php">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="admin_inquiry.php">Inquiries</a></li>
+                                <li><a class="dropdown-item" href="admin_footer.php">Footer</a></li>
+                            </ul>
+
                         </li>
+
+
                     </ul>
                 </div>
             </div>

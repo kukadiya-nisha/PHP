@@ -1,4 +1,6 @@
-<?php include 'header.php'; ?>
+<?php include 'header.php';
+include_once('user_check_authentication.php');
+?>
 
 
 

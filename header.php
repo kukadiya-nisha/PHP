@@ -81,26 +81,14 @@ $con->query($remove_otp);
                     <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">Search</button>
                 </form>
-                <div class="d-flex mx-2">
-                    <?php
-                    if (isset($_SESSION['user'])) {
-                    ?>
-                        <a href="cart.php" class="btn btn-outline-light me-2">
-                            <i class="bi bi-cart"></i> Cart
-                        </a>
-                    <?php
-                    }
-                    ?>
-                    <a href="login.php" class="btn btn-outline-light me-2">
-                        <i class="bi bi-person"></i> Login
-                    </a>
-                    <a href="signup.php" class="btn btn-outline-light">
-                        <i class="bi bi-person"></i> Register
-                    </a>
-                </div>
                 <?php
                 if (isset($_SESSION['user'])) {
                 ?>
+                    <div class="d-flex mx-2">
+                        <a href="cart.php" class="btn btn-outline-light me-2">
+                            <i class="bi bi-cart"></i> Cart
+                        </a>
+                    </div>
                     <div class="nav-item dropdown">
                         <a class="btn btn-outline-light dropdown-toggle" href="#" id="profileDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -115,10 +103,22 @@ $con->query($remove_otp);
                         </ul>
                     </div>
                 <?php
+                } else {
+
+
+                ?>
+                    <div class="d-flex mx-2">
+                        <a href="login.php" class="btn btn-outline-light me-2">
+                            <i class="bi bi-person"></i> Login
+                        </a>
+                        <a href="signup.php" class="btn btn-outline-light">
+                            <i class="bi bi-person"></i> Register
+                        </a>
+                    </div>
+                <?php
                 }
                 ?>
             </div>
-        </div>
     </nav>
     <br>
     <div class="container">
