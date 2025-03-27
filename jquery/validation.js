@@ -1,5 +1,6 @@
 $(document).ready(function () {
   // Function to validate a field
+  // alert("validation.js loaded");
   function validateField(input) {
     let field = $(input);
     let value = field.val().trim();
@@ -56,16 +57,7 @@ $(document).ready(function () {
     // Max length validation
     else if (fieldType.includes("max") && value.length > maxLength) {
       errorMessage = `Must be less than ${maxLength} characters.`;
-    }
-    // File upload validation
-    // else if (fieldType.includes("file") && !/\.(jpg|jpeg|png)$/i.test(value)) {
-    //     errorMessage = "Only JPG, JPEG, or PNG files are allowed.";
-    // }
-    // else if (fieldType.includes("filesize") && field[0].files[0].size > filesize*1024) {
-    //     errorMessage = `File size must be less than ${filesize} KB.`;
-    // }
-    // File upload validation (only if a file is selected)
-    else if (fieldType.includes("file") && field[0].files.length > 0) {
+    } else if (fieldType.includes("file") && field[0].files.length > 0) {
       let file = field[0].files[0];
       let fileName = file.name;
       let fileSizeKB = file.size / 1024;

@@ -1,6 +1,7 @@
 <?php
 session_start();
 ob_start();
+
 include_once("db_connect.php");
 include_once("mailer.php");
 date_default_timezone_set('Asia/Kolkata');
@@ -60,14 +61,19 @@ $con->query($remove_otp);
                             $table = mysqli_query($con, $select);
                             while ($row = $table->fetch_assoc()) {
                             ?>
-                                <li><a class="dropdown-item" href="all_products.php"><?= $row['category_name'] ?></a></li>
+                                <li>
+                                    <a class="dropdown-item" href="all_products.php?category=<?php echo $row['id']; ?>"><?= $row['category_name'] ?>
+                                    </a>
+                                </li>
                             <?php
                             }
                             ?>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="all_products.php">All Categories</a></li>
+                            <li>
+                                <a class="dropdown-item" href="all_products.php">All Categories</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -85,7 +91,7 @@ $con->query($remove_otp);
                 if (isset($_SESSION['user'])) {
                 ?>
                     <div class="d-flex mx-2">
-                        <a href="cart.php" class="btn btn-outline-light me-2">
+                        <a href="view_cart.php" class="btn btn-outline-light me-2">
                             <i class="bi bi-cart"></i> Cart
                         </a>
                     </div>
@@ -95,10 +101,10 @@ $con->query($remove_otp);
                             <i class="bi bi-person"></i> Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
-                            <li><a class="dropdown-item" href="orders.php">My Orders</a></li>
-                            <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
-                            <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
+                            <li><a class="dropdown-item" href="user_profile.php">My Profile</a></li>
+                            <li><a class="dropdown-item" href="user_orders.php">My Orders</a></li>
+                            <li><a class="dropdown-item" href="user_wishlist.php">Wishlist</a></li>
+                            <li><a class="dropdown-item" href="user_change_password.php">Change Password</a></li>
                             <li><a class="dropdown-item" href="user_logout.php">Logout</a></li>
                         </ul>
                     </div>

@@ -1,10 +1,26 @@
-<?php include 'header.php'; ?>
+<?php include 'header.php';
+if (isset($_SESSION['user'])) {
+?>
+    <script>
+        window.location.href = "<?php echo $_SESSION['url']; ?>";
+    </script>
+<?php
+}
+if (isset($_SESSION['admin'])) {
+?>
+    <script>
+        window.location.href = "admin_dashboard.php";
+    </script>
+<?php
+}
+?>
 <div class="container py-5">
     <div class="card login-card">
         <div class="card-body p-4">
             <h3 class="card-title text-center mb-4">Login</h3>
 
-            <form action="login.php" method="post">
+            <form action="login.php<?php echo isset($_GET['redirect']) ? '?redirect=' . urldecode($_GET['redirect']) : ''; ?>" method="post">
+
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" data-validation="required email">
@@ -56,14 +72,27 @@ if (isset($_POST['login_btn'])) {
                 <script>
                     window.location.href = "admin_dashboard.php";
                 </script>
-            <?php
+                <?php
             } else {
                 $_SESSION['user'] = $em;
-            ?>
-                <script>
-                    window.location.href = "user_dashboard.php";
-                </script>
+                if (isset($_GET['redirect'])) {
+                    $redirect_url = urldecode($_GET['redirect']);
+                    $_SESSION['url'] = $redirect_url;
+                ?>
+                    <script>
+                        // alert("<?php echo $redirect_url; ?>");
+                        window.location.href = "<?php echo $redirect_url; ?>";
+                        exit();
+                    </script>
+                <?php
+                } else {
+
+                ?>
+                    <script>
+                        window.location.href = "user_dashboard.php";
+                    </script>
             <?php
+                }
             }
         } else {
             setcookie("error", "Email is not verified", time() + 5, "/");
