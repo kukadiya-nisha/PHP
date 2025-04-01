@@ -1,6 +1,4 @@
 <?php
-
-
 include 'header.php';
 include 'user_check_authentication.php';
 
@@ -125,7 +123,15 @@ $cart_result = mysqli_query($con, $q);
 
                     <div class="d-flex justify-content-between mb-3">
                         <span>Shipping</span>
-                        <span>Rs. 50.00</span>
+
+                        <?php
+                        if ($sub_total == 0 || $sub_total > 1000) {
+                            $shipping_cost = 0;
+                        } else {
+                            $shipping_cost = 50;
+                        }
+                        ?>
+                        <span>Rs. <?php echo $shipping_cost; ?> </span>
                     </div>
                     <!-- <div class="d-flex justify-content-between mb-3"> -->
 
@@ -139,7 +145,7 @@ $cart_result = mysqli_query($con, $q);
                     <div class="d-flex justify-content-between mb-4">
                         <strong>Total</strong>
                         <strong class="text-danger"><?php
-                                                    $cart_total = $sub_total + 50;
+                                                    $cart_total = $sub_total + $shipping_cost;
                                                     echo "Rs. " . $cart_total . ".00";
                                                     ?></strong>
                     </div>

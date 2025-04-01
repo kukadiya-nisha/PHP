@@ -8,7 +8,7 @@ if (isset($_GET['category'])) {
     $search_term = $_POST['search_product'];
     $q = "select * from products where status='Active'";
     if ($category != '') {
-        $q .= " and category_id='$category'";
+        $q = $q . " and category_id='$category'";
     }
 
     if ($search_term != '') {
@@ -154,7 +154,7 @@ $total_rows = mysqli_num_rows($res);
     </div>
 <?php
         } else {
-            echo "<h3 class='text-center'>No Products Found</h3>";
+            echo "<h4 class='text-center text-secondary'>No Products Found</h4>";
         }
 ?>
 <!-- <nav class="mt-5">

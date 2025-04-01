@@ -255,7 +255,7 @@ if (isset($_POST['deleteProduct'])) {
                                     </div>
                                     <div class="mb-3">
                                         <label for="mainImage" class="form-label"><b>Main Image</b></label>
-                                        <input type="file" class="form-control" id="mainImage" name="mainImage" data-validation="required file filesize" data-filesize="200">
+                                        <input type="file" class="form-control" id="mainImage" name="mainImage" data-validation="required file filesize" data-filesize="500">
                                         <div id="mainImageError" class="error"></div>
                                     </div>
                                     <div class="mb-3">
@@ -356,7 +356,7 @@ if (isset($_POST['deleteProduct'])) {
 
                                         </div>
                                         <label for="mainImage" class="form-label"><b>Main Image</b></label>
-                                        <input type="file" class="form-control" id="mainImage" name="mainImage" data-validation="required file filesize" data-filesize="200">
+                                        <input type="file" class="form-control" id="mainImage" name="mainImage" data-validation="required file filesize" data-filesize="500">
                                         <div id="mainImageError" class="error"></div>
                                         <div id="mainImagePreview">
 

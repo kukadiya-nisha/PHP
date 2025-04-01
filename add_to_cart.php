@@ -41,7 +41,7 @@ if (isset($_SESSION['user'])) {
     <?php
 
         } else {
-            $total_price = $products_data['price'] * $quantity;
+            $total_price = $products_data['discounted_price'] * $quantity;
             $update_cart = "update cart set quantity='$quantity', `total_price`=$total_price where  product_id='$id' and email='$email'";
             if (mysqli_query($con, $update_cart)) {
                 setcookie('success', 'Product Updated in cart', time() + 3);
@@ -66,12 +66,6 @@ if (isset($_SESSION['user'])) {
 <?php
 } else {
     setcookie('error', 'You can add produts to cart only after login', time() + 3);
-
-?>
-    <script>
-        window.location.href = 'view_cart.php';
-    </script>
-<?php
 }
 
 include_once("footer.php");

@@ -11,6 +11,11 @@ if (isset($_POST['id'])) {
     $cart_data = mysqli_fetch_assoc($cart_data);
         {
         $quantity = $cart_data['quantity'] - 1;
+        if($quantity==0)
+        {
+            setcookie('error', 'Minimum quantity must be 1', time() + 3);
+            exit();
+        }
         $total_price = $product_data['price'] * $quantity;
         $update_cart = "update cart set quantity=$quantity, total_price=$total_price where product_id=$id and email='$email'";
         $res = mysqli_query($con, $update_cart);
