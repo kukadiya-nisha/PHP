@@ -1,8 +1,5 @@
 <?php include 'header.php'; ?>
-
-<style>
- 
-</style>
+<?php include_once('user_check_authentication.php'); ?>
 
 <div class="container my-5">
   <h1 class="text-center mb-4">My Wishlist</h1>

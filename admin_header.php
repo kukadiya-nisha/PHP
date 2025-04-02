@@ -20,6 +20,7 @@ if (!isset($_SESSION['admin'])) {
     <script src="css/jquery.validate.min.js"></script>
     <script src="css/additional-methods.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <script src="jquery/validation.js"></script>
 </head>
 
 <body>
@@ -158,9 +159,16 @@ if (!isset($_SESSION['admin'])) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="settings.php">
-                                <i class="bi bi-gear"></i> Settings
-                            </a>
+                            <a class="nav-link text-light dropdown-toggle" href="#" id="settingsDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-box-arrow-right-right"></i> Site Settings </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+                                <li><a class="dropdown-item" href="admin_slider_images.php">Slider Images</a></li>
+                                <li><a class="dropdown-item" href="admin_contact_us.php">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="admin_inquiry.php">Inquiries</a></li>
+                                <li><a class="dropdown-item" href="admin_footer.php">Footer</a></li>
+                            </ul>
+
                         </li>
                     </ul>
                 </div>
@@ -206,9 +214,23 @@ if (!isset($_SESSION['admin'])) {
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" href="settings.php">
-                                <i class="bi bi-gear"></i> Settings
+                                <i class="bi bi-gear"></i> Inquiries
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light dropdown-toggle" href="#" id="settingsDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-box-arrow-right-right"></i> Site Settings </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="settingsDropdown">
+                                <li><a class="dropdown-item" href="admin_slider_images.php">Slider Images</a></li>
+                                <li><a class="dropdown-item" href="admin_contact_us.php">Contact Us</a></li>
+                                <li><a class="dropdown-item" href="admin_inquiry.php">Inquiries</a></li>
+                                <li><a class="dropdown-item" href="admin_footer.php">Footer</a></li>
+                            </ul>
+
+                        </li>
+
+
                     </ul>
                 </div>
             </div>

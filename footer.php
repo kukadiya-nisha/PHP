@@ -21,8 +21,8 @@
             <div class="col-6 col-md-2 mb-4">
                 <h5 class="mb-3 fw-bold">Quick Links</h5>
                 <ul class="list-unstyled">
-                    <li class="mb-2"><a href="#" class="text-light text-decoration-none footer-link">Home</a></li>
-                    <li class="mb-2"><a href="#" class="text-light text-decoration-none footer-link">Products</a></li>
+                    <li class="mb-2"><a href="home.php" class="text-light text-decoration-none footer-link">Home</a></li>
+                    <li class="mb-2"><a href="all_products.php" class="text-light text-decoration-none footer-link">Products</a></li>
                     <li class="mb-2"><a href="#" class="text-light text-decoration-none footer-link">Categories</a></li>
                     <li class="mb-2"><a href="#" class="text-light text-decoration-none footer-link">Special Offers</a></li>
                 </ul>

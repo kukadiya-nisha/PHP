@@ -1,15 +1,5 @@
 <?php include 'header.php';
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
-
-//Load Composer's autoloader
-require('PHPMailer\PHPMailer.php');
-require('PHPMailer\SMTP.php');
-require('PHPMailer\Exception.php'); ?>
-
-
+?>
 <script>
     $(document).ready(function() {
         $('#email').on('blur', function() {
@@ -18,17 +8,21 @@ require('PHPMailer\Exception.php'); ?>
                 type: 'GET',
                 url: 'check_duplicate_Email.php',
                 data: {
-                    email: email
+                    email1: email
                 },
                 success: function(response) {
                     if (response == 'true') {
                         $('#emailError').text('Email already registered.').show();
                         $('#email').addClass('is-invalid');
+                        $('#email').removeClass('is-valid');
+                        $('#emailError').addClass('text-danger');
+                        $('#emailError').removeClass('text-success');
                     } else {
                         $('#emailError').text('This email is available').show();
                         $('#email').removeClass('is-invalid');
                         $('#email').addClass('is-valid');
                         $('#emailError').addClass('text-success');
+                        $('#emailError').removeClass('text-danger');
                     }
                 }
             });
@@ -46,44 +40,51 @@ require('PHPMailer\Exception.php'); ?>
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Enter first name" data-validation="required alpha">
+                        <input type="text" class="form-control" id="firstName" name="firstName"
+                            placeholder="Enter first name" data-validation="required alpha">
                         <div class="error" id="firstNameError"></div>
 
                     </div>
                     <div class="col-md-6">
                         <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Enter last name" data-validation="required alpha">
+                        <input type="text" class="form-control" id="lastName" name="lastName"
+                            placeholder="Enter last name" data-validation="required alpha">
                         <div class="error" id="lastNameError"></div>
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" data-validation="required email">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email"
+                        data-validation="required email">
                     <div class="error" id="emailError"> </div>
                 </div>
                 <div class="mb-3">
                     <label for="mobile" class="form-label">Mobile Number</label>
-                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Your Mobile Number" name="mobile" data-validation="required numeric min max" data-min="10" data-max="10">
+                    <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Your Mobile Number"
+                        name="mobile" data-validation="required numeric min max" data-min="10" data-max="10">
                     <div class="error" id="mobileError"></div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Create password" data-validation="required strongPassword min max" data-min="8" data-max="25">
+                    <input type="password" class="form-control" id="password" name="password"
+                        placeholder="Create password" data-validation="required strongPassword min max" data-min="8"
+                        data-max="25">
                     <div class="error" id="passwordError"></div>
                 </div>
 
                 <div class=" mb-3">
                     <label for="confirmPassword" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm password"
-                        data-validation="required confirmPassword" data-password-id="password">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                        placeholder="Confirm password" data-validation="required confirmPassword"
+                        data-password-id="password">
                     <div class="error" id="confirmPasswordError"></div>
                 </div>
 
                 <div class=" mb-3">
                     <label for="profile_picture" class="form-label">Profile Picture</label>
-                    <input type="file" class="form-control" id="profile_picture" name="profile_picture" placeholder="Confirm password"
-                        data-validation="required file filesize" data-filesize="200">
+                    <input type="file" class="form-control" id="profile_picture" name="profile_picture"
+                        placeholder="Confirm password" data-validation="required file filesize" data-filesize="200">
                     <div class="error" id="profile_pictureError"></div>
                 </div>
 
@@ -112,9 +113,9 @@ if (isset($_POST['signup_btn'])) {
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
     $profile_picture = uniqid() . $_FILES['profile_picture']['name'];
-    $terms = $_POST['terms'];
+
     $profile_picture_tmp_name = $_FILES['profile_picture']['tmp_name'];
-    $token = time();
+    $token = uniqid() . time();
 
     $insert = "INSERT INTO `registration`(`firstname`, `lastname`, `email`, `mobile`, `password`, `profile_picture`, `role`, `status`,`token`) VALUES ('$firstName','$lastName','$email','$mobile','$password','$profile_picture','User','Inactive','$token')";
     // echo $insert;
@@ -123,46 +124,19 @@ if (isset($_POST['signup_btn'])) {
             mkdir('images/profile_pictures');
         }
         move_uploaded_file($profile_picture_tmp_name, 'images/profile_pictures/' . $profile_picture);
-        $mail = new PHPMailer();
-        $headers = 'X-Mailer: PHP/' . phpversion();
-        $headers .= "MIME-Version: 1.0\r\n";
-        $headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
-        $token = date('Y-m-d H:i:s');
-        $token = uniqid() . time();
-        $to = $email;
-        $subject = "Account Verification Link";
-        $link = 'http://localhost/php-1/verify.php?email=' . $email . '&token=' . $token;
+
+        $link = 'http://localhost/php-1/verify_email.php?email=' . $email . '&token=' . $token;
         $body = "<div style='background-color: #f8f9fa; padding: 20px; border-radius: 5px;'>
                     <h2 style='color: #dc3545; text-align: center;'>Account Verification</h2>
                     <p style='text-align: center;'>Click on the button below to verify your account</p>
                     <a href='" . $link . "' style='display: block; width: 200px; margin: 0 auto; text-align: center; background-color: #dc3545; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px;'>Verify Account</a>
                 </div>";
-        $mail->IsSMTP(); // telling the class to use SMTP
-        $mail->SMTPDebug  = 2;                // enables SMTP debug information (for testing)
-        $mail->SMTPOptions = array(
-            'ssl' => array(
-                'verify_peer' => false,
-                'verify_peer_name' => false,
-                'allow_self_signed' => true
-            )
-        );
-        $mail->SMTPAuth = true;
-        $mail->SMTPSecure = "ssl";                 // sets the prefix to the servier
-        $mail->Host       = 'smtp.gmail.com';      // sets GMAIL as the SMTP server
-        $mail->Port       = 465;                   // set the SMTP port for the GMAIL server
-        $mail->Username   = "kansagrajanki@gmail.com";  // GMAIL username(from)
-        $mail->Password   = "password";            // GMAIL password(from)
-        $mail->SetFrom('kansagrajanki@gmail.com', 'Student Demo Website'); //from
-        $mail->AddReplyTo("kansagrajanki@gmail.com", "Student Demo Website"); //to
-        $mail->Subject    = "Account Verification Link";
-        $mail->AltBody    = "To view the message, please use an HTML compatible email viewer!";
-        $mail->MsgHTML($body);
+        $subject = "Account Verification Mail";
 
-        $mail->AddAddress($to, "Student Sample Website");
-        if (!$mail->Send()) {
-            setcookie('error', 'Failed to send the registration link', time() + 5);
-        } else {
+        if (sendEmail($email, $subject, $body, "")) {
             setcookie('success', 'Registration Successfull. Account verification link has been sent to your email. Verify your email to login.', time() + 5);
+        } else {
+            setcookie('error', 'Failed to send the registration link', time() + 5);
         }
     } else {
         setcookie('error', 'Registration Failed', time() + 5);

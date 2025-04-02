@@ -3,11 +3,24 @@ session_start();
 ob_start();
 
 include_once("db_connect.php");
+include_once("mailer.php");
+date_default_timezone_set('Asia/Kolkata');
+$current_time = date("Y-m-d H:i:s");
+// $delete_query = "DELETE FROM password_token WHERE expires_at < '$current_time'";
+// $con->query($delete_query);
+$q = "UPDATE password_token 
+SET otp_attempts = 0 
+WHERE TIMESTAMPDIFF(HOUR, last_resend, NOW()) >= 24";
+$con->query($q);
+$remove_otp = "update password_token set otp=NULL WHERE expires_at < '$current_time'";
+$con->query($remove_otp);
+
 ?>
 
 <html>
 
 <head>
+    <!-- <meta http-equiv="refresh" content="121"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/bootstrap-icons.css">
@@ -48,14 +61,19 @@ include_once("db_connect.php");
                             $table = mysqli_query($con, $select);
                             while ($row = $table->fetch_assoc()) {
                             ?>
-                                <li><a class="dropdown-item" href="all_products.php"><?= $row['category_name'] ?></a></li>
+                                <li>
+                                    <a class="dropdown-item" href="all_products.php?category=<?php echo $row['id']; ?>"><?= $row['category_name'] ?>
+                                    </a>
+                                </li>
                             <?php
                             }
                             ?>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="all_products.php">All Categories</a></li>
+                            <li>
+                                <a class="dropdown-item" href="all_products.php">All Categories</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -69,43 +87,44 @@ include_once("db_connect.php");
                     <input class="form-control me-2" type="search" placeholder="Search products..." aria-label="Search">
                     <button class="btn btn-outline-light" type="submit">Search</button>
                 </form>
-                <div class="d-flex mx-2">
-                    <?php
-                    if (isset($_SESSION['user'])) {
-                    ?>
-                        <a href="cart.php" class="btn btn-outline-light me-2">
-                            <i class="bi bi-cart"></i> Cart
-                        </a>
-                    <?php
-                    }
-                    ?>
-                    <a href="login.php" class="btn btn-outline-light me-2">
-                        <i class="bi bi-person"></i> Login
-                    </a>
-                    <a href="signup.php" class="btn btn-outline-light">
-                        <i class="bi bi-person"></i> Register
-                    </a>
-                </div>
                 <?php
                 if (isset($_SESSION['user'])) {
                 ?>
+                    <div class="d-flex mx-2">
+                        <a href="view_cart.php" class="btn btn-outline-light me-2">
+                            <i class="bi bi-cart"></i> Cart
+                        </a>
+                    </div>
                     <div class="nav-item dropdown">
                         <a class="btn btn-outline-light dropdown-toggle" href="#" id="profileDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person"></i> Profile
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
-                            <li><a class="dropdown-item" href="orders.php">My Orders</a></li>
-                            <li><a class="dropdown-item" href="wishlist.php">Wishlist</a></li>
-                            <li><a class="dropdown-item" href="change_password.php">Change Password</a></li>
+                            <li><a class="dropdown-item" href="user_profile.php">My Profile</a></li>
+                            <li><a class="dropdown-item" href="user_orders.php">My Orders</a></li>
+                            <li><a class="dropdown-item" href="user_wishlist.php">Wishlist</a></li>
+                            <li><a class="dropdown-item" href="user_change_password.php">Change Password</a></li>
+                            <li><a class="dropdown-item" href="user_logout.php">Logout</a></li>
                         </ul>
+                    </div>
+                <?php
+                } else {
+
+
+                ?>
+                    <div class="d-flex mx-2">
+                        <a href="login.php" class="btn btn-outline-light me-2">
+                            <i class="bi bi-person"></i> Login
+                        </a>
+                        <a href="signup.php" class="btn btn-outline-light">
+                            <i class="bi bi-person"></i> Register
+                        </a>
                     </div>
                 <?php
                 }
                 ?>
             </div>
-        </div>
     </nav>
     <br>
     <div class="container">
@@ -113,7 +132,7 @@ include_once("db_connect.php");
         if (isset($_COOKIE['success'])) {
         ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>Success!</strong> <?php echo $_COOKIE['success']; ?>
+                <strong>Success!</strong> <?php echo " " . $_COOKIE['success']; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php
@@ -121,7 +140,7 @@ include_once("db_connect.php");
         if (isset($_COOKIE['error'])) {
         ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!</strong><?php echo $_COOKIE['error']; ?>
+                <strong>Error!</strong><?php echo " " . $_COOKIE['error']; ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php
