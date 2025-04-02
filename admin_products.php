@@ -191,6 +191,33 @@ if (isset($_POST['deleteProduct'])) {
     </script>
 <?php
 }
+
+//Handle update Stock
+
+if (isset($_POST['update_stock_btn'])) {
+    $productId = $_POST['editStockProductId'];
+    $add_quantity = $_POST['quantity'];
+    $get_data = "Select quantity from products where id=$productId";
+    $count = mysqli_num_rows(mysqli_query($con, $get_data));
+    if ($count <= 0) {
+        echo "<script>alert('Product not found');</script>";
+    } else {
+        $p_data = mysqli_fetch_assoc(mysqli_query($con, $get_data));
+        $quantity = $p_data['quantity'];
+        $updated_quantity = $quantity + $add_quantity;
+        $update_query = "update products set quantity=$updated_quantity where id=$productId";
+        if (mysqli_query($con, $update_query)) {
+            echo "<script>alert('Product Stock updated successfully');</script>";
+        } else {
+            echo "<script>alert('Error in updating product stock');</script>";
+        }
+    }
+?>
+    <script>
+        window.location.href = "admin_products.php";
+    </script>
+<?php
+}
 ?>
 
 
@@ -477,6 +504,37 @@ if (isset($_POST['deleteProduct'])) {
             </div>
         </div>
 
+        <!-- Edit Stock Modal -->
+        <div class=" modal fade" id="editStockModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Add Stock</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="admin_products.php" enctype="multipart/form-data">
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="mb-3">
+                                        <label for="produeditStockProductIdctID" class="form-label"><b>Product Id</b></label>
+                                        <input type="text" name="editStockProductId" id="editStockProductId" class="form-control" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="quantity" class="form-label"><b>Quantity</b></label>
+                                        <input type="text" class="form-control" id="editProductQuantity" placeholder="Enter Quantity" name="quantity" data-validation="required numeric">
+                                        <div class="error" id="quantityError"></div>
+                                    </div>
+                                    <button type="submit" class="btn btn-danger" name="update_stock_btn">Update Stock</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- view product modal -->
         <div class="modal fade" id="viewProductModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -620,10 +678,12 @@ if (isset($_POST['deleteProduct'])) {
                                     <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                     <input type="submit" name="deleteProduct" class="btn btn-sm btn-outline-danger" value="Delete">
                                 </form>
-                                <form method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                    <input type="submit" name="managestock" class="btn btn-sm btn-outline-info" value="Add Stock">
-                                </form>
+                                <button class="btn btn-sm btn-outline-info me-1 editStockBtn"
+                                    data-id="<?= $row['id'] ?>"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editStockModal">
+                                    Add Stock
+                                </button>
                                 <?php
                                 if ($row['status'] == "Active") {
                                 ?>
@@ -756,6 +816,16 @@ if (isset($_POST['deleteProduct'])) {
 
 
             $('#viewProductModal').show();
+
+        });
+
+        $(".editStockBtn").click(function() {
+            let productId = $(this).data("id");
+
+            // Populate modal input fields
+            $("#editStockProductId").val(productId);
+
+            // Handle multiple images if needed
 
         });
     });
