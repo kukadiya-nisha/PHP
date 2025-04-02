@@ -45,9 +45,13 @@ if (!isset($_SESSION['admin'])) {
                             Categories
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="all_products.php">Electronics</a></li>
-                            <li><a class="dropdown-item" href="all_products.php">Fashion</a></li>
-                            <li><a class="dropdown-item" href="all_products.php">Home & Living</a></li>
+                            <?php
+                            $category_query = "SELECT * FROM categories WHERE category_status = 'Active'";
+                            $category_result = mysqli_query($con, $category_query);
+                            while ($category = mysqli_fetch_assoc($category_result)) {
+                                echo "<li><a class='dropdown-item' href='all_products.php?category=" . $category['id'] . "'>" . $category['category_name'] . "</a></li>";
+                            }
+                            ?>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -144,8 +148,8 @@ if (!isset($_SESSION['admin'])) {
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="admin_customers.php">
-                                <i class="bi bi-people"></i> Customers
+                            <a class="nav-link" href="admin_users.php">
+                                <i class="bi bi-people"></i> Users
                             </a>
                         </li>
                         <li class="nav-item">

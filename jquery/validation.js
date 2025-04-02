@@ -1,6 +1,5 @@
 $(document).ready(function () {
   // Function to validate a field
-  // alert("validation.js loaded");
   function validateField(input) {
     let field = $(input);
     let value = field.val().trim();
@@ -11,78 +10,88 @@ $(document).ready(function () {
     let filesize = field.data("filesize") || 0;
 
     let errorMessage = "";
-
-    // Required field validation
-    if (fieldType.includes("required") && value === "") {
-      errorMessage = "This field is required.";
-    }
-    // Email validation
-    else if (fieldType.includes("email") && !/^\S+@\S+\.\S+$/.test(value)) {
-      errorMessage = "Enter a valid email.";
-    }
-    // Strong password validation
-    else if (
-      fieldType.includes("strongPassword") &&
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).{8,}$/.test(value)
-    ) {
-      errorMessage =
-        "Password must be at least 8 characters, including uppercase and lowercase letters, numbers, and a special character.";
-    }
-    // Confirm password validation
-    else if (fieldType.includes("confirmPassword")) {
-      let confirmPassword = field.val().trim();
-      let password = $("#" + field.data("password-id"))
-        .val()
-        .trim();
-      if (confirmPassword !== password) {
-        errorMessage = "Passwords do not match.";
+    if (field.data("validation")) {
+      // Required field validation
+      if (fieldType.includes("required") && value === "") {
+        errorMessage = "This field is required.";
       }
-    }
-    // Terms and Conditions validation
-    else if (fieldType.includes("terms") && !field.is(":checked")) {
-      errorMessage = "You must agree to the Terms & Conditions.";
-    }
-    // Alphabetical validation
-    else if (fieldType.includes("alpha") && !/^[A-Za-z\s]+$/.test(value)) {
-      errorMessage = "Only letters are allowed.";
-    }
-    // Numeric validation
-    else if (fieldType.includes("numeric") && !/^\d+$/.test(value)) {
-      errorMessage = "Only numbers are allowed.";
-    }
-    // Min length validation
-    else if (fieldType.includes("min") && value.length < minLength) {
-      errorMessage = `Must be at least ${minLength} characters.`;
-    }
-    // Max length validation
-    else if (fieldType.includes("max") && value.length > maxLength) {
-      errorMessage = `Must be less than ${maxLength} characters.`;
-    } else if (fieldType.includes("file") && field[0].files.length > 0) {
-      let file = field[0].files[0];
-      let fileName = file.name;
-      let fileSizeKB = file.size / 1024;
-
-      if (!/\.(jpg|jpeg|png)$/i.test(fileName)) {
-        errorMessage = "Only JPG, JPEG, or PNG files are allowed.";
-      } else if (fieldType.includes("filesize") && fileSizeKB > filesize) {
-        errorMessage = `File size must be less than ${filesize} KB.`;
+      // Email validation
+      else if (fieldType.includes("email") && !/^\S+@\S+\.\S+$/.test(value)) {
+        errorMessage = "Enter a valid email.";
       }
-    }
+      // Strong password validation
+      else if (
+        fieldType.includes("strongPassword") &&
+        !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).{8,}$/.test(value)
+      ) {
+        errorMessage =
+          "Password must be at least 8 characters, including uppercase and lowercase letters, numbers, and a special character.";
+      }
+      // Confirm password validation
+      else if (fieldType.includes("confirmPassword")) {
+        let confirmPassword = field.val().trim();
+        let password = $("#" + field.data("password-id"))
+          .val()
+          .trim();
+        if (confirmPassword !== password) {
+          errorMessage = "Passwords do not match.";
+        }
+      }
+      // Terms and Conditions validation
+      else if (fieldType.includes("terms") && !field.is(":checked")) {
+        errorMessage = "You must agree to the Terms & Conditions.";
+      }
+      // Alphabetical validation
+      else if (fieldType.includes("alpha") && !/^[A-Za-z\s]+$/.test(value)) {
+        errorMessage = "Only letters are allowed.";
+      }
+      // Numeric validation
+      else if (fieldType.includes("numeric") && !/^\d+$/.test(value)) {
+        errorMessage = "Only numbers are allowed.";
+      }
+      // Min length validation
+      else if (fieldType.includes("min") && value.length < minLength) {
+        errorMessage = `Must be at least ${minLength} characters.`;
+      }
+      // Max length validation
+      else if (fieldType.includes("max") && value.length > maxLength) {
+        errorMessage = `Must be less than ${maxLength} characters.`;
+      }
+      // File validation
+      else if (fieldType.includes("file") && field[0].files.length > 0) {
+        let file = field[0].files[0];
+        let fileName = file.name;
+        let fileSizeKB = file.size / 1024;
 
-    // Show or clear error message
-    if (errorMessage) {
-      errorSpan.text(errorMessage).show();
-      field.addClass("is-invalid");
-      field.removeClass("is-valid"); // Add red border
-    } else {
-      errorSpan.text("").hide();
-      field.removeClass("is-invalid");
-      field.addClass("is-valid"); // Remove red border
+        if (!/\.(jpg|jpeg|png)$/i.test(fileName)) {
+          errorMessage = "Only JPG, JPEG, or PNG files are allowed.";
+        } else if (fieldType.includes("filesize") && fileSizeKB > filesize) {
+          errorMessage = `File size must be less than ${filesize} KB.`;
+        }
+      }
+      // Select field validation
+      else if (
+        field.is("select") &&
+        fieldType.includes("required") &&
+        (value === "" || field.find("option:selected").index() === 0)
+      ) {
+        errorMessage = "Please select an option.";
+      }
+
+      // Show or clear error message
+      if (errorMessage) {
+        errorSpan.text(errorMessage).show();
+        field.addClass("is-invalid");
+        field.removeClass("is-valid");
+      } else {
+        errorSpan.text("").hide();
+        field.removeClass("is-invalid");
+        field.addClass("is-valid");
+      }
     }
   }
-
-  // Attach validation event to all inputs with `oninput`
-  $("input, textarea").on("input", function () {
+  // Attach validation event to all inputs and selects
+  $("input, textarea, select").on("input change", function () {
     validateField(this);
   });
 
@@ -91,7 +100,7 @@ $(document).ready(function () {
     let isValid = true;
 
     $(this)
-      .find("input, textarea")
+      .find("input, textarea, select")
       .each(function () {
         validateField(this);
         if ($(this).next(".error").text() !== "") {
