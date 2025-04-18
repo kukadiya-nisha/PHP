@@ -1,4 +1,7 @@
-<?php include 'header.php'; ?>
+<?php include 'header.php';
+$contact_data = "select * from contact_us";
+$contact_result = mysqli_fetch_assoc(mysqli_query($con, $contact_data));
+?>
 <div class="container py-5">
     <h2 class="text-center mb-5">Contact Us</h2>
 
@@ -8,7 +11,7 @@
                 <div class="card-body text-center">
                     <i class="bi bi-geo-alt contact-icon mb-3"></i>
                     <h5 class="card-title">Our Location</h5>
-                    <p class="card-text">RK University, Rajkot - 360020</p>
+                    <p class="card-text"><?php echo $contact_result['address']; ?></p>
                 </div>
             </div>
         </div>
@@ -18,7 +21,7 @@
                 <div class="card-body text-center">
                     <i class="bi bi-envelope contact-icon mb-3"></i>
                     <h5 class="card-title">Email Us</h5>
-                    <p class="card-text">nisha.kukadiya@rku.ac.in</p>
+                    <p class="card-text"><?php echo $contact_result['email']; ?></p>
                 </div>
             </div>
         </div>
@@ -28,7 +31,7 @@
                 <div class="card-body text-center">
                     <i class="bi bi-telephone contact-icon mb-3"></i>
                     <h5 class="card-title">Call Us</h5>
-                    <p class="card-text">+91 1234567890</p>
+                    <p class="card-text">+91 <?php echo $contact_result['mobile']; ?></p>
                 </div>
             </div>
         </div>
@@ -38,8 +41,7 @@
         <div class="col-md-6 mb-4 mb-md-0">
             <div class="ratio ratio-4x3" style="height: 100%;">
 
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.119763973046!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1659942574455!5m2!1sen!2s"
-                    class="border rounded" allowfullscreen="" loading="lazy"></iframe>
+                <?php echo $contact_result['maps']; ?>
             </div>
         </div>
 
