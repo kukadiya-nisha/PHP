@@ -6,8 +6,8 @@ require 'vendor/autoload.php';
 use Razorpay\Api\Api;
 
 // Initialize Razorpay API
-$api_key = 'rzp_test_FUijwPsI1t6dUR';
-$api_secret = 'jRnoTlr33KFYLVmWfEf1zNvq';
+$api_key = 'your Api Key';
+$api_secret = 'Your secret Key';
 $api = new Api($api_key, $api_secret);
 
 // Fetch payment details from the client

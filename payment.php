@@ -58,18 +58,18 @@ if (isset($_POST['payment'])) {
                 unset($_SESSION['offer_status']);
                 unset($_SESSION['status']);
 ?>
-                <script>
-                    window.location.href = "user_orders.php";
-                </script>
-        <?php
+<script>
+window.location.href = "user_orders.php";
+</script>
+<?php
             }
         }
     }
     // Initialize Razorpay API
     else {
 
-        $api_key = 'rzp_test_FUijwPsI1t6dUR';
-        $api_secret = 'jRnoTlr33KFYLVmWfEf1zNvq';
+        $api_key = 'your Api Key';
+        $api_secret = 'Your secret Key';
         $api = new Api($api_key, $api_secret);
 
         try {
@@ -91,78 +91,78 @@ if (isset($_POST['payment'])) {
         ?>
 
 
-        <div class="container">
-            <div class="container">
+<div class="container">
+    <div class="container">
 
-                <div class="container py-5">
-                    <div class="card login-card">
-                        <div class="card-body p-4">
-                            <h3 class="card-title text-center mb-4">Paying to Janki Kansagra</h3>
+        <div class="container py-5">
+            <div class="card login-card">
+                <div class="card-body p-4">
+                    <h3 class="card-title text-center mb-4">Paying to Janki Kansagra</h3>
 
-                            <form action="payment.php" method="post">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Net Payable Amount</label>
-                                    <input type="text" class="form-control" id="email" placeholder="Enter your email"
-                                        name="email" value="<?php echo $total; ?>" disabled>
-                                    <div class="error" id="emailError"></div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="order_id" class="form-label">Transaction ID</label>
-                                    <input type="text" class="form-control" id="password" placeholder="Enter your password"
-                                        value="<?php echo $_SESSION['order_id']; ?>" disabled>
-                                    <div class="error" id="passwordError"></div>
-                                </div>
-                                <button id="rzp-button" class="btn btn-danger w-100 mb-3" name="login_btn">Pay
-                                    Now</button>
-                                <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-                                <script>
-                                    var options = {
-                                        "key": "<?php echo $api_key; ?>", // Enter the API key here
-                                        "amount": "<?php echo $total * 100; ?>", // Amount in paise
-                                        "currency": "INR",
-                                        "name": "Janki Kansagra",
-                                        "description": "Test Transaction",
-                                        "image": "https://upload.wikimedia.org/wikipedia/en/5/5b/RK_University_logo.png",
-                                        "order_id": "<?php echo $_SESSION['order_id']; ?>", // Razorpay Order ID
-                                        "prefill": {
-                                            "name": "Janki Kansagra",
-                                            "email": "janki.kansagra@rku.ac.in",
-                                            "contact": "8155825235"
-                                        },
-                                        "theme": {
-                                            "color": "#ffffff"
-                                        },
-                                        "handler": function(response) {
-                                            $.post("payment_razorpay_checkout.php", {
-                                                razorpay_payment_id: response.razorpay_payment_id,
-                                                razorpay_order_id: response.razorpay_order_id,
-                                                razorpay_signature: response.razorpay_signature
-                                            }, function(data) {
-                                                alert(data);
-                                                if (data === "success") {
-                                                    // Redirect to user order page
-                                                    window.location.href = "user_orders.php";
-                                                } else {
-                                                    alert("Payment verification failed. Please contact support.");
-                                                }
-                                            });
-                                        }
-                                    };
-
-                                    var rzp = new Razorpay(options);
-                                    document.getElementById('rzp-button').onclick = function(e) {
-                                        rzp.open();
-                                        e.preventDefault();
-                                    };
-                                </script>
-                                <input type="hidden" name="hidden">
-                            </form>
+                    <form action="payment.php" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Net Payable Amount</label>
+                            <input type="text" class="form-control" id="email" placeholder="Enter your email"
+                                name="email" value="<?php echo $total; ?>" disabled>
+                            <div class="error" id="emailError"></div>
                         </div>
-                    </div>
+
+                        <div class="mb-3">
+                            <label for="order_id" class="form-label">Transaction ID</label>
+                            <input type="text" class="form-control" id="password" placeholder="Enter your password"
+                                value="<?php echo $_SESSION['order_id']; ?>" disabled>
+                            <div class="error" id="passwordError"></div>
+                        </div>
+                        <button id="rzp-button" class="btn btn-danger w-100 mb-3" name="login_btn">Pay
+                            Now</button>
+                        <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                        <script>
+                        var options = {
+                            "key": "<?php echo $api_key; ?>", // Enter the API key here
+                            "amount": "<?php echo $total * 100; ?>", // Amount in paise
+                            "currency": "INR",
+                            "name": "Janki Kansagra",
+                            "description": "Test Transaction",
+                            "image": "https://upload.wikimedia.org/wikipedia/en/5/5b/RK_University_logo.png",
+                            "order_id": "<?php echo $_SESSION['order_id']; ?>", // Razorpay Order ID
+                            "prefill": {
+                                "name": "Janki Kansagra",
+                                "email": "janki.kansagra@rku.ac.in",
+                                "contact": "8155825235"
+                            },
+                            "theme": {
+                                "color": "#ffffff"
+                            },
+                            "handler": function(response) {
+                                $.post("payment_razorpay_checkout.php", {
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_signature: response.razorpay_signature
+                                }, function(data) {
+                                    alert(data);
+                                    if (data === "success") {
+                                        // Redirect to user order page
+                                        window.location.href = "user_orders.php";
+                                    } else {
+                                        alert("Payment verification failed. Please contact support.");
+                                    }
+                                });
+                            }
+                        };
+
+                        var rzp = new Razorpay(options);
+                        document.getElementById('rzp-button').onclick = function(e) {
+                            rzp.open();
+                            e.preventDefault();
+                        };
+                        </script>
+                        <input type="hidden" name="hidden">
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 <?php
     }
 }
