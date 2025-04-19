@@ -15,7 +15,7 @@ if (isset($_GET['category'])) {
         $q .= " and product_name LIKE '%$search_term%'";
     }
     if ($price_sort != '') {
-        $q .= " ORDER BY price $price_sort";
+        $q .= " ORDER BY discounted_price $price_sort";
     }
     // echo $q;
 } else {

@@ -33,7 +33,7 @@ if (isset($_SESSION['user'])) {
             </script>
         <?php
         } else if ($products_data['quantity'] < $quantity) {
-            setcookie('error', 'Sorry fro the inconvenience, Product not available in stock', time() + 3);
+            setcookie('error', 'Sorry for the inconvenience, Product not available in stock', time() + 3);
         ?>
             <script>
                 window.location.href = 'all_products.php';

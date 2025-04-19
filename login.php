@@ -89,7 +89,7 @@ if (isset($_POST['login_btn'])) {
 
                 ?>
                     <script>
-                        window.location.href = "user_dashboard.php";
+                        window.location.href = "all_products.php";
                     </script>
             <?php
                 }

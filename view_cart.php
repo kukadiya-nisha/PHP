@@ -85,18 +85,18 @@ $cart_result = mysqli_query($con, $q);
                                             $sub_total = $sub_total;
                                         ?>
                                             <p class="text-danger mb-0 fw-bold badge p-2 btn btn-outline-danger" style="font-size: large;">Out of Stock</p>
-
                                         <?php
                                         } else {
                                             $sub_total = $sub_total + $cart_data['total_price'];
                                         ?>
-
-
                                             <a href="remove_from_cart.php?id=<?php echo $cart_data['product_id']; ?>"><button class="btn btn-outline-danger remove-btn btn-sm mb-3"><i class="bi bi-trash"></i>
                                                     Remove </button></a>
                                         <?php
                                         }
+                                       
+                                       
                                         ?>
+
                                     </div>
                                 </div>
                             </div>
@@ -160,4 +160,7 @@ $cart_result = mysqli_query($con, $q);
     </div>
 </div>
 
-<?php include 'footer.php'; ?>
+
+<?php include 'footer.php';
+ $_SESSION['cart_total'] = $sub_total;
+ $_SESSION['shipping_cost'] = $shipping_cost; ?>

@@ -1,5 +1,8 @@
 <?php
 include 'admin_header.php';
+$limit = 4; // Number of categories per page
+$page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$start = ($page - 1) * $limit;
 ?>
 <script>
     $(document).ready(function() {
@@ -188,6 +191,33 @@ if (isset($_POST['deleteProduct'])) {
     </script>
 <?php
 }
+
+//Handle update Stock
+
+if (isset($_POST['update_stock_btn'])) {
+    $productId = $_POST['editStockProductId'];
+    $add_quantity = $_POST['quantity'];
+    $get_data = "Select quantity from products where id=$productId";
+    $count = mysqli_num_rows(mysqli_query($con, $get_data));
+    if ($count <= 0) {
+        echo "<script>alert('Product not found');</script>";
+    } else {
+        $p_data = mysqli_fetch_assoc(mysqli_query($con, $get_data));
+        $quantity = $p_data['quantity'];
+        $updated_quantity = $quantity + $add_quantity;
+        $update_query = "update products set quantity=$updated_quantity where id=$productId";
+        if (mysqli_query($con, $update_query)) {
+            echo "<script>alert('Product Stock updated successfully');</script>";
+        } else {
+            echo "<script>alert('Error in updating product stock');</script>";
+        }
+    }
+?>
+    <script>
+        window.location.href = "admin_products.php";
+    </script>
+<?php
+}
 ?>
 
 
@@ -202,10 +232,14 @@ if (isset($_POST['deleteProduct'])) {
         <div class="row mb-4">
             <div class="col-md-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search Products...">
-                    <button class="btn btn-danger">
-                        <i class="bi bi-search"></i>
-                    </button>
+
+                    <form method="post" action="admin_products.php">
+                        <input type="text" class="form-control" placeholder="Search Products..." class="m-4" name="search">
+
+                        <button class="btn btn-danger mt-3" type="submit">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </form>
                 </div>
             </div>
             <div class="col-md-6 text-end">
@@ -216,9 +250,9 @@ if (isset($_POST['deleteProduct'])) {
         </div>
         <style>
             .modal-dialog {
-                max-width: 800px;
+                max-width: 900px;
                 /* Increased from default 500px */
-                width: 90%;
+                width: 100%;
                 /* Responsive width */
                 margin: 1.75rem auto;
             }
@@ -470,6 +504,105 @@ if (isset($_POST['deleteProduct'])) {
             </div>
         </div>
 
+        <!-- Edit Stock Modal -->
+        <div class=" modal fade" id="editStockModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Add Stock</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" action="admin_products.php" enctype="multipart/form-data">
+                            <div class="form-row">
+                                <div class="form-col">
+                                    <div class="mb-3">
+                                        <label for="produeditStockProductIdctID" class="form-label"><b>Product Id</b></label>
+                                        <input type="text" name="editStockProductId" id="editStockProductId" class="form-control" readonly>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="quantity" class="form-label"><b>Quantity</b></label>
+                                        <input type="text" class="form-control" id="editProductQuantity" placeholder="Enter Quantity" name="quantity" data-validation="required numeric">
+                                        <div class="error" id="quantityError"></div>
+                                    </div>
+                                    <button type="submit" class="btn btn-danger" name="update_stock_btn">Update Stock</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- view product modal -->
+        <div class="modal fade" id="viewProductModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content shadow-lg">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title"><i class="bi bi-box"></i> Product Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <img id="view_product_image" class="border shadow-sm rounded" width="150" height="150" alt="Product Image">
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <strong><i class="bi bi-collection"></i> Other Images:</strong>
+                                        <div id="view_product_other_images" class="mt-2"></div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-12">
+                                        <h4 id="view_product_name" class="mb-3"></h4>
+
+                                        <div class="col-md-12">
+                                            <strong><i class="bi bi-tags"></i>Product Category</strong> <span id="view_product_category"></span>
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <h5 id="view_product_category" class="mb-3 text-muted"></h5>
+                                        </div>
+
+                                        <div class="col-md-12 mb-3">
+                                            <strong><i class="bi bi-currency-dollar"></i> Price:</strong> <span id="view_product_price"></span>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <strong><i class="bi bi-percent"></i> Discount:</strong> <span id="view_product_discount"></span>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <strong><i class="bi bi-tags"></i> Price After Discount:</strong> <span id="view_product_after_discount"></span>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <strong><i class="bi bi-clipboard-data"></i> Stock:</strong> <span id="view_product_stock"></span>
+                                        </div>
+                                        <div class="col-md-12 mb-3">
+                                            <strong><i class="bi bi-check-circle"></i> Status:</strong> <span id="view_product_status" class="badge bg-success"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <strong><i class="bi bi-info-circle"></i> Description:</strong>
+                                        <p id="view_product_description" class="mt-2"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Categories Table -->
         <div class="table-responsive">
             <table class="table table-hover align-middle">
@@ -484,20 +617,47 @@ if (isset($_POST['deleteProduct'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $select = "SELECT * FROM products";
+                    if (isset($_POST['search'])) {
+                        $search = $_POST['search'];
+                        $select = "SELECT * FROM products WHERE product_name LIKE '%$search%' LIMIT $start, $limit";
+                    } else {
+                        $select = "SELECT * FROM products LIMIT $start, $limit";
+                    }
+                    $countQuery = str_replace("SELECT *", "SELECT COUNT(*) as total", $select);
+                    $countQuery = str_replace("LIMIT $start, $limit", "", $countQuery);
+                    $totalResult = mysqli_query($con, $countQuery);
+                    $totalRecords = mysqli_fetch_assoc($totalResult)['total'];
+                    $totalPages = ceil($totalRecords / $limit);
                     $table = mysqli_query($con, $select);
+
                     while ($row = $table->fetch_assoc()) {
                     ?>
                         <tr>
                             <td><?= $row['id'] ?></td>
-                            <td><?= $row['product_name'] ?></td>
-                            <td><img src="images/products/<?= $row['main_image']; ?>" class="img-fluid" style="max-width: 70px; height: auto;" />
+                            <td style="max-width: 200px; height: auto;"><?= $row['product_name'] ?></td>
+                            <td><img src=" images/products/<?= $row['main_image']; ?>" class="img-fluid" style="max-width: 70px; height: auto;" />
                             </td>
 
                             <td><span class="badge bg-<?= $row['status'] == "Inactive" ? "danger" : "success" ?>">
                                     <?= $row['status'] ?>
                                 </span></td>
                             <td>
+                                <button class="btn btn-sm btn-outline-primary me-1 viewBtn"
+                                    data-id="<?= $row['id'] ?>"
+                                    data-name="<?= $row['product_name'] ?>"
+                                    data-status="<?= $row['status'] ?>"
+                                    data-price="<?= $row['price'] ?>"
+                                    data-description="<?= htmlspecialchars($row['description'], ENT_QUOTES, 'UTF-8') ?>"
+                                    data-image="<?= $row['main_image'] ?>"
+                                    data-discount="<?= $row['discount'] ?>"
+                                    data-after_discount="<?= $row['discounted_price'] ?>"
+                                    data-category_id="<?= $row['category_id'] ?>"
+                                    data-quantity="<?= $row['quantity'] ?>"
+                                    data-other_images="<?= $row['other_images'] ?>"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#viewProductModal">
+                                    View
+                                </button>
                                 <button class="btn btn-sm btn-outline-warning me-1 editBtn"
                                     data-id="<?= $row['id'] ?>"
                                     data-name="<?= $row['product_name'] ?>"
@@ -518,10 +678,12 @@ if (isset($_POST['deleteProduct'])) {
                                     <input type="hidden" name="id" value="<?= $row['id'] ?>">
                                     <input type="submit" name="deleteProduct" class="btn btn-sm btn-outline-danger" value="Delete">
                                 </form>
-                                <form method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                    <input type="submit" name="managestock" class="btn btn-sm btn-outline-info" value="Add Stock">
-                                </form>
+                                <button class="btn btn-sm btn-outline-info me-1 editStockBtn"
+                                    data-id="<?= $row['id'] ?>"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#editStockModal">
+                                    Add Stock
+                                </button>
                                 <?php
                                 if ($row['status'] == "Active") {
                                 ?>
@@ -546,7 +708,22 @@ if (isset($_POST['deleteProduct'])) {
                     ?>
                 </tbody>
             </table>
+
         </div>
+
+        <nav>
+            <ul class="pagination justify-content-center">
+                <?php if ($page > 1) { ?>
+                    <li class="page-item"><a class="page-link" href="admin_products.php?page=<?= $page - 1 ?>">Previous</a></li>
+                <?php }
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    echo "<li class='page-item " . ($page == $i ? "active" : "") . "'><a class='page-link' href='admin_products.php?page=$i'>$i</a></li>";
+                }
+                if ($page < $totalPages) { ?>
+                    <li class="page-item"><a class="page-link" href="admin_products.php?page=<?= $page + 1 ?>">Next</a></li>
+                <?php } ?>
+            </ul>
+        </nav>
     </div>
 </div>
 
@@ -592,6 +769,61 @@ if (isset($_POST['deleteProduct'])) {
             $("#editProductAfterDiscount").val(productAfterDiscount);
             $("#editProductCategoryId").val(productCategoryId);
             $("#editProductQuantity").val(productQuantity);
+
+            // Handle multiple images if needed
+
+        });
+        $(".viewBtn").click(function() {
+            let productId = $(this).data("id");
+            let productName = $(this).data("name");
+            let productStatus = $(this).data("status");
+            let productPrice = $(this).data("price");
+            let productDescription = $(this).data("description");
+            let productImage = $(this).data("image");
+            let productDiscount = $(this).data("discount");
+            let productAfterDiscount = $(this).data("after_discount");
+            let productCategoryId = $(this).data("category_id");
+            let productQuantity = $(this).data("quantity");
+            let productOtherImages = $(this).data("other_images");
+
+            if (productImage) {
+                $('#mainImagePreview').html('<img src="images/products/' + productImage + '" width="150" class="rounded">');
+            } else {
+                $('#mainImagePreview').html('<p>No Image</p>');
+            }
+
+            if (productOtherImages) {
+                let images = productOtherImages.split(",");
+                let imgPreview = "";
+                images.forEach(img => {
+                    imgPreview += `<img src="images/products/${img}" class="img-thumbnail" width="100px"> `;
+                });
+                $("#view_product_other_images").html(imgPreview);
+            } else {
+                $("#view_product_other_images").html("");
+            }
+            // Populate modal input fields
+            $("#view_product_name").text(productName);
+            $("#view_product_status").text(productStatus);
+            $("#view_product_price").text(productPrice);
+            $("#view_product_description").html(productDescription);
+            $("#view_product_image").attr("src", "images/products/" + productImage);
+            $("#view_product_discount").text(productDiscount);
+            $("#view_product_after_discount").text(productAfterDiscount);
+            $("#view_product_category").text(productCategoryId);
+            $("#view_product_stock").text(productQuantity);
+            // $("#view_product_other_images").html(generateImageGallery(otherImages));
+
+
+            $('#viewProductModal').show();
+
+        });
+
+        $(".editStockBtn").click(function() {
+            let productId = $(this).data("id");
+
+            // Populate modal input fields
+            $("#editStockProductId").val(productId);
 
             // Handle multiple images if needed
 

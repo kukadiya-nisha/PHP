@@ -1,8 +1,8 @@
 <?php
 include 'admin_header.php';
-?>
-
-<?php
+$limit = 5; // Number of categories per page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$start = ($page - 1) * $limit;
 // Handling Add Category
 if (isset($_POST['Add_Category'])) {
     $Category_Name = $_POST['categoryName'];
@@ -82,10 +82,13 @@ if (isset($_POST['activateCategory'])) {
         <div class="row mb-4">
             <div class="col-md-6">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Search categories...">
-                    <button class="btn btn-danger">
-                        <i class="bi bi-search"></i>
-                    </button>
+                    <form method="post" action="admin_categories.php">
+                        <input type="text" class="form-control" placeholder="Search categories..." class="m-4" name="search">
+
+                        <button class="btn btn-danger mt-3" type="submit">
+                            <i class="bi bi-search"></i> Search
+                        </button>
+                    </form>
                 </div>
             </div>
             <div class="col-md-6 text-end">
@@ -165,47 +168,77 @@ if (isset($_POST['activateCategory'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $select = "SELECT * FROM categories";
-                    $table = mysqli_query($con, $select);
-                    while ($row = $table->fetch_assoc()) {
-                    ?>
-                        <tr>
-                            <td><?= $row['id'] ?></td>
-                            <td><?= $row['category_name'] ?></td>
-                            <td><span class="badge bg-<?= $row['category_status'] == "Inactive" ? "danger" : "success" ?>">
-                                    <?= $row['category_status'] ?>
-                                </span></td>
-                            <td>
-                                <button class="btn btn-sm btn-outline-warning me-1 editBtn" data-id="<?= $row['id'] ?>" data-name="<?= $row['category_name'] ?>" data-status="<?= $row['category_status'] ?>" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button>
-                                <form method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                    <input type="submit" name="deleteCategory" class="btn btn-sm btn-outline-danger" value="Delete">
-                                </form>
-                                <?php
-                                if ($row['category_status'] == "Active") {
-                                ?>
-                                    <form method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                        <input type="submit" name="deactivateCategory" class="btn btn-sm btn-outline-secondary" value="Deactivate">
-                                    </form>
-                                <?php
-                                } else {
-                                ?>
-                                    <form method="post" style="display:inline;">
-                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                                        <input type="submit" name="activateCategory" class="btn btn-sm btn-outline-success" value="Activate">
-                                    </form>
-                                <?php
-                                }   ?>
+                    if (isset($_POST['search'])) {
+                        $search = $_POST['search'];
+                        $select = "SELECT * FROM categories WHERE category_name LIKE '%$search%' LIMIT $start, $limit";
+                    } else {
+                        $select = "SELECT * FROM categories LIMIT $start, $limit";
+                    }
 
-                            </td>
-                        </tr>
+                    // Get total records for pagination
+                    $countQuery = str_replace("SELECT *", "SELECT COUNT(*) as total", $select);
+                    $countQuery = str_replace("LIMIT $start, $limit", "", $countQuery);
+                    $totalResult = mysqli_query($con, $countQuery);
+                    $totalRecords = mysqli_fetch_assoc($totalResult)['total'];
+                    $totalPages = ceil($totalRecords / $limit);
+                    $table = mysqli_query($con, $select);
+                    if (mysqli_num_rows($table) > 0) {
+                        while ($row = $table->fetch_assoc()) {
+                    ?>
+                            <tr>
+                                <td><?= $row['id'] ?></td>
+                                <td><?= $row['category_name'] ?></td>
+                                <td><span class="badge bg-<?= $row['category_status'] == "Inactive" ? "danger" : "success" ?>">
+                                        <?= $row['category_status'] ?>
+                                    </span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning me-1 editBtn" data-id="<?= $row['id'] ?>" data-name="<?= $row['category_name'] ?>" data-status="<?= $row['category_status'] ?>" data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button>
+                                    <form method="post" style="display:inline;">
+                                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                        <input type="submit" name="deleteCategory" class="btn btn-sm btn-outline-danger" value="Delete">
+                                    </form>
+                                    <?php
+                                    if ($row['category_status'] == "Active") {
+                                    ?>
+                                        <form method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                            <input type="submit" name="deactivateCategory" class="btn btn-sm btn-outline-secondary" value="Deactivate">
+                                        </form>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <form method="post" style="display:inline;">
+                                            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                                            <input type="submit" name="activateCategory" class="btn btn-sm btn-outline-success" value="Activate">
+                                        </form>
+                                    <?php
+                                    }   ?>
+
+                                </td>
+                            </tr>
                     <?php
+                        }
+                    } else {
+                        echo "<tr> <td colspan='4' class='text-center text-secondary'><h5>No results found.</h5></td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
+
+        <nav>
+            <ul class="pagination justify-content-center">
+                <?php if ($page > 1) { ?>
+                    <li class="page-item"><a class="page-link" href="admin_categories.php?page=<?= $page - 1 ?>">Previous</a></li>
+                <?php }
+                for ($i = 1; $i <= $totalPages; $i++) {
+                    echo "<li class='page-item " . ($page == $i ? "active" : "") . "'><a class='page-link' href='admin_categories.php?page=$i'>$i</a></li>";
+                }
+                if ($page < $totalPages) { ?>
+                    <li class="page-item"><a class="page-link" href="admin_categories.php?page=<?= $page + 1 ?>">Next</a></li>
+                <?php } ?>
+            </ul>
+        </nav>
     </div>
 </div>
 
