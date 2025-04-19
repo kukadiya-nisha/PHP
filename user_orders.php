@@ -9,7 +9,26 @@ $result = mysqli_query($con, $q);
 $q1 = "select * from registration where email='$email'";
 $result1  = mysqli_fetch_assoc(mysqli_query($con, $q1));
 
-if()
+if (isset($_POST['rate_review_btn1'])) {
+    $order_id = $_POST['order_id'];
+    $rating = $_POST['rating'];
+    $review = $_POST['review'];
+
+    $update_query = "UPDATE orders SET rating='$rating', review='$review' WHERE sub_order_id='$order_id'";
+    mysqli_query($con, $update_query);
+    if (mysqli_affected_rows($con) > 0) {
+        setcookie('success', 'Rating and Review submitted successfully', time() + 5, '/');
+    } else {
+        setcookie('error', 'Failed to submit Rating and Review', time() + 5, '/');
+    }
+?>
+    <script>
+        window.location.href = 'user_orders.php';
+    </script>
+<?php
+    exit();
+}
+
 
 ?>
 <div class="container">
@@ -59,8 +78,20 @@ if()
                                     <?php
                                     }
                                     ?>
-                                    <a href="user_view_order.php?id=<?php echo $row['sub_order_id']; ?>"
-                                        class="btn btn-info">View</a>
+                                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#viewOrderModal" data-order_id="<?php echo $row['sub_order_id'] ?>">View</button>
+                                    <div class="modal fade" id="viewOrderModal" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Order Details</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Insert order details here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <?php
                                     if ($row['delivery_status'] == "Ordered") { ?>
                                         <a href="user_cancel_order.php?id=<?php echo $row['sub_order_id']; ?>"
@@ -133,3 +164,19 @@ include_once('footer.php'); ?>
         });
     });
 </script>
+
+
+<!-- View Order Details Modal -->
+<div class="modal fade" id="viewOrderDetailsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title"><i class="bi bi-box"></i> Order Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <!-- Insert your order details here -->
+            </div>
+        </div>
+    </div>
+</div>
